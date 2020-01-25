@@ -1,16 +1,26 @@
-import { Match } from '../models/match.model'
+import { User } from '../models/user.model'
 
 /**
  * Populate the leaderboard standings.
  */
-const populateLeaderboard = () => {
+const getUsers = () => {
   return new Promise((resolve, reject) => {
-    Match.find({}, (err, matches) => {
+    User.find({}, (err, users) => {
       if (err) throw err
 
-      resolve(matches)
+      resolve(users)
       return
     })
+  })
+}
+
+const populateLeaderboard = () => {
+  return new Promise((resolve, reject) => {
+    getUsers()
+      .then(users => {
+        resolve(users)
+        return
+      })
   })
 }
 
@@ -18,7 +28,7 @@ const populateLeaderboard = () => {
  * Get the leaderboard template.
  */
 export const getLeaderboard = (req, res) => {
-  populateLeaderboard(req)
+  populateLeaderboard()
     .then((standings) => {
       res.render('leaderboard', {
         user: req.user,

@@ -92,3 +92,7 @@ export const getMatches = (req, res) => {
     })
   })
 }
+
+/**
+ * TODO: Added stats to players, need to push that data when adding a match so i can loop over it on leaderboard page.
+ */

@@ -17,6 +17,20 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  stats: {
+    played: {
+      type: Number
+    },
+    won: {
+      type: Number
+    },
+    lost: {
+      type: Number
+    },
+    points: {
+      type: Number
+    }
+  },
   matches: [
     {
       type: mongoose.Schema.Types.ObjectId,

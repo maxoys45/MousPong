@@ -8,7 +8,8 @@
       <span class="input-group-text">Player 1</span>
     </div>
 
-    <input id="player1" name="player1" readonly type="text" class="form-control" aria-label="Username" value="<%= user.name %>">
+    <input type="hidden" id="player1" name="player1" value="<%= user.id %>">
+    <input readonly type="text" class="form-control" aria-label="Username" value="<%= user.name %>">
   </div>
 
   <div class="input-group mb-3">
@@ -27,7 +28,7 @@
     <select class="custom-select" id="player2" name="player2">
       <option value="">Choose...</option>
       <% opponents.forEach(opponent => { %>
-        <option value="<%= opponent.name %>"<%= typeof player2 != 'undefined' && player2 === opponent.name ? ' selected' : '' %>><%= opponent.name %></option>
+        <option value="<%= opponent.id %>"<%= typeof player2 != 'undefined' && player2 === opponent.name ? ' selected' : '' %>><%= opponent.name %></option>
       <% }) %>
     </select>
   </div>
