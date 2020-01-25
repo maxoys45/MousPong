@@ -1,0 +1,46 @@
+<h1>Add new match</h1>
+
+<%- include('./partials/messages') -%>
+
+<form action="/matches/new" method="POST">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Player 1</span>
+    </div>
+
+    <input id="player1" name="player1" readonly type="text" class="form-control" aria-label="Username" value="<%= user.name %>">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Player 1 Score</span>
+    </div>
+
+    <input id="player1score" name="player1score" type="number" class="form-control" aria-label="Score" value="<%= typeof player1score != 'undefined' ? player1score : '' %>">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="player2">Player 2</label>
+    </div>
+
+    <select class="custom-select" id="player2" name="player2">
+      <option value="">Choose...</option>
+      <% opponents.forEach(opponent => { %>
+        <option value="<%= opponent.name %>"<%= typeof player2 != 'undefined' && player2 === opponent.name ? ' selected' : '' %>><%= opponent.name %></option>
+      <% }) %>
+    </select>
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Player 2 Score</span>
+    </div>
+
+    <input id="player2score" name="player2score" type="number" class="form-control" aria-label="Score" value="<%= typeof player2score != 'undefined' ? player2score : '' %>">
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-block">
+    Add match
+  </button>
+</form>

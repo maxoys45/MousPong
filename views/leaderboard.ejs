@@ -1,0 +1,27 @@
+<div class="container">
+  <h1 class="mt-4">Leaderboard</h1>
+
+  <p class="lead mb-3">Welcome <%= user.name %></p>
+
+  <%- include('./partials/messages') -%>
+
+  <a href="/users/logout" class="btn btn-secondary">Logout</a>
+
+  <a href="/matches/new" class="btn btn-primary">Add new match</a>
+
+  <a href="/matches/history" class="btn btn-secondary">View previous matches</a>
+</div>
+
+<ul>
+  <% standings.forEach(player => { %>
+    <li>
+      <span class="leaderboard__rank"></span>
+      <span class="leaderboard__player"></span>
+      <span class="leaderboard__games-played"></span>
+      <span class="leaderboard__games-won"></span>
+      <span class="leaderboard__games-lost"></span>
+      <span class="leaderboard__points"></span>
+      <span class="leaderboard__form"></span>
+    </li>
+  <% }) %>
+</ul>

@@ -1,0 +1,24 @@
+<div class="container leaderboard">
+  <h1>Previous Matches</h1>
+
+  <ul class="list">
+    <% matches.forEach(match => { %>
+      <script>
+        var date = new Date('<%= match.date %>')
+        var d = date.getDate()
+        var m = date.getMonth() + 1
+        var y = date.getFullYear()
+
+        console.log(`d:${d}, m:${m}, y:${y}`)
+      </script>
+
+      <li>
+        <span><%= match.player1 %></span>
+        <span><%= match.player1score %></span>
+        <span>:</span>
+        <span><%= match.player2score %></span>
+        <span><%= match.player2 %></span>
+      </li>
+    <% }) %>
+  </ul>
+</div>
