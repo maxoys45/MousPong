@@ -22,7 +22,7 @@ const getOpponentsList = (req) => {
  */
 export const getNewMatch = (req, res) => {
   getOpponentsList(req)
-    .then((opponents) => {
+    .then(opponents => {
       res.render('addmatch', {
         user: req.user,
         opponents
@@ -31,14 +31,44 @@ export const getNewMatch = (req, res) => {
 }
 
 /**
+ * Take the match values and update the users stats.
+ * @param {Object} p1 player1
+ * @param {Number} p1s player1score
+ * @param {Object} p2 player2
+ * @param {Number} p2s player2score
+ */
+const updateUserStats = (p1, p1s, p2, p2s) => {
+  // return new Promise((resolve, reject) => {
+    let winner
+    let loser
+
+    if (p1s > p2s) {
+      winner = p1
+      loser = p2
+    } else {
+      winner = p2,
+      loser = p1
+    }
+
+    User.updateOne({ _id: winner }, {
+      $inc: { "stats.played": 1, "stats.won": 1, "stats.points": 3 }
+    }).exec()
+
+    User.updateOne({ _id: loser }, {
+      $inc: { "stats.played": 1, "stats.lost": 1 }
+    }).exec()
+  // })
+}
+
+/**
  * Add a new match.
  */
 export const addNewMatch = (req, res) => {
-  const { player1, player1score, player2, player2score } = req.body
+  const { _player1, player1score, _player2, player2score } = req.body
 
   let errors = []
 
-  if (!player1 || !player1score || !player2 || !player2score) {
+  if (!_player1 || !player1score || !_player1 || !player2score) {
     errors.push({ msg: 'Please enter both scores and the opponent.' })
   }
 
@@ -57,17 +87,19 @@ export const addNewMatch = (req, res) => {
           user: req.user,
           opponents,
           errors,
-          player1,
+          _player1,
           player1score,
-          player2,
+          _player2,
           player2score
         })
       })
   } else {
+    updateUserStats(_player1, player1score, _player2, player2score)
+
     const newMatch = new Match({
-      player1,
+      _player1,
       player1score,
-      player2,
+      _player2,
       player2score
     })
 
@@ -84,13 +116,19 @@ export const addNewMatch = (req, res) => {
  * Get the match history and render the template.
  */
 export const getMatches = (req, res) => {
-  Match.find({}, null, { sort: { date: -1 }}, (err, matches) => {
-    if (err) throw err
+  Match
+    .find({}, null, { sort: { date: -1 }})
+    .populate('_player1')
+    .populate('_player2')
+    .exec((err, matches) => {
+      if (err) throw err
 
-    res.render('history', {
-      matches
+      console.log(matches[0])
+
+      res.render('history', {
+        matches
+      })
     })
-  })
 }
 
 /**
