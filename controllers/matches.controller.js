@@ -64,11 +64,11 @@ const updateUserStats = (p1, p1s, p2, p2s) => {
  * Add a new match.
  */
 export const addNewMatch = (req, res) => {
-  const { _player1, player1score, _player2, player2score } = req.body
+  const { player1, player1score, player2, player2score } = req.body
 
   let errors = []
 
-  if (!_player1 || !player1score || !_player1 || !player2score) {
+  if (!player1 || !player1score || !player1 || !player2score) {
     errors.push({ msg: 'Please enter both scores and the opponent.' })
   }
 
@@ -87,19 +87,19 @@ export const addNewMatch = (req, res) => {
           user: req.user,
           opponents,
           errors,
-          _player1,
+          player1,
           player1score,
-          _player2,
+          player2,
           player2score
         })
       })
   } else {
-    updateUserStats(_player1, player1score, _player2, player2score)
+    updateUserStats(player1, player1score, player2, player2score)
 
     const newMatch = new Match({
-      _player1,
+      player1,
       player1score,
-      _player2,
+      player2,
       player2score
     })
 
@@ -118,8 +118,8 @@ export const addNewMatch = (req, res) => {
 export const getMatches = (req, res) => {
   Match
     .find({}, null, { sort: { date: -1 }})
-    .populate('_player1')
-    .populate('_player2')
+    .populate('player1')
+    .populate('player2')
     .exec((err, matches) => {
       if (err) throw err
 
