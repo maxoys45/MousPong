@@ -19,19 +19,23 @@ const UserSchema = new mongoose.Schema({
   },
   stats: {
     played: {
-      type: Number
+      type: Number,
+      default: 0,
     },
     won: {
-      type: Number
+      type: Number,
+      default: 0,
     },
     lost: {
-      type: Number
+      type: Number,
+      default: 0,
     },
     points: {
-      type: Number
+      type: Number,
+      default: 0,
     }
   },
-  matches: [
+  _matches: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Match'

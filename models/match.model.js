@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const MatchSchema = new mongoose.Schema({
-  player1: {
+  _player1: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
@@ -10,7 +10,7 @@ const MatchSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  player2: {
+  _player2: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,

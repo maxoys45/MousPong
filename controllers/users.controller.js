@@ -56,7 +56,7 @@ export const postRegister = (req, res) => {
   }
 
   // Check password length
-  if (password.length < 6) {
+  if (password.length < 2) {
     errors.push({ msg: 'Password must be at least 6 characters long.' })
   }
 
