@@ -26,7 +26,7 @@ export default (passport) => {
             return done(null, user)
           })
         })
-        .catch(err => console.log(err))
+        .catch(err => console.error(err))
     })
   )
 

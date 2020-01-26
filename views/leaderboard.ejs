@@ -13,15 +13,15 @@
 </div>
 
 <ul>
-  <% standings.forEach(player => { %>
+  <% standings.forEach((player, index) => { %>
     <li>
-      <span class="leaderboard__rank"></span>
-      <span class="leaderboard__player"></span>
-      <span class="leaderboard__games-played"></span>
-      <span class="leaderboard__games-won"></span>
-      <span class="leaderboard__games-lost"></span>
-      <span class="leaderboard__points"></span>
-      <span class="leaderboard__form"></span>
+      <span class="leaderboard__rank"><%= (index + 1) %></span>
+      <span class="leaderboard__player"><%= player.name %></span>
+      <span class="leaderboard__games-played"><%= player.stats.played %></span>
+      <span class="leaderboard__games-won"><%= player.stats.won %></span>
+      <span class="leaderboard__games-lost"><%= player.stats.lost %></span>
+      <span class="leaderboard__points"><%= player.stats.points %></span>
+      <span class="leaderboard__form"><%= player.name %></span>
     </li>
   <% }) %>
 </ul>

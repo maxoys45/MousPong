@@ -99,7 +99,7 @@ export const postRegister = (req, res) => {
                   req.flash('success_msg', 'You are now registered and can login.')
                   res.redirect('/users/login')
                 })
-                .catch(err => console.log(err))
+                .catch(err => console.error(err))
             })
           })
         }

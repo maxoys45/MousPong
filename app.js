@@ -20,7 +20,7 @@ func(passport)
 // Connect to Mongo
 mongoose.connect(db.MongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected...'))
-  .catch(err => console.log(err))
+  .catch(err => console.error(err))
 // EJS
 app.use(expressLayouts)
 app.set('view engine', 'ejs')

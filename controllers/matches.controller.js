@@ -108,7 +108,7 @@ export const addNewMatch = (req, res) => {
         req.flash('success_msg', 'New match has been added.')
         res.redirect('/')
       })
-      .catch (err => console.log(err))
+      .catch (err => console.error(err))
   }
 }
 
@@ -117,13 +117,11 @@ export const addNewMatch = (req, res) => {
  */
 export const getMatches = (req, res) => {
   Match
-    .find({}, null, { sort: { date: -1 }})
+    .find({}, null, { sort: { date: 1 }})
     .populate('player1')
     .populate('player2')
     .exec((err, matches) => {
       if (err) throw err
-
-      console.log(matches[0])
 
       res.render('history', {
         matches
