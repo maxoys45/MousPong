@@ -12,16 +12,32 @@
   <a href="/matches/history" class="btn btn-secondary">View previous matches</a>
 </div>
 
-<ul>
-  <% standings.forEach((player, index) => { %>
-    <li>
-      <span class="leaderboard__rank"><%= (index + 1) %></span>
-      <span class="leaderboard__player"><%= player.name %></span>
-      <span class="leaderboard__games-played"><%= player.stats.played %></span>
-      <span class="leaderboard__games-won"><%= player.stats.won %></span>
-      <span class="leaderboard__games-lost"><%= player.stats.lost %></span>
-      <span class="leaderboard__points"><%= player.stats.points %></span>
-      <span class="leaderboard__form"><%= player.name %></span>
-    </li>
-  <% }) %>
-</ul>
+<div class="container mt-4">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th class="heading center-col" scope="col">#</th>
+        <th class="heading" scope="col" style="width: 40%;">Player</th>
+        <th class="heading center-col" scope="col">PLD</th>
+        <th class="heading center-col" scope="col">WON</th>
+        <th class="heading center-col" scope="col">LOST</th>
+        <th class="heading center-col" scope="col">PTS</th>
+        <th class="heading center-col" scope="col">FORM</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% standings.forEach((player, index) => { %>
+        <tr>
+          <td class="center-col leaderboard__rank"><%= (index + 1) %></td>
+          <td class="leaderboard__player"><%= player.name %></td>
+          <td class="center-col leaderboard__games-played"><%= player.stats.played %></td>
+          <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
+          <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>
+          <td class="center-col leaderboard__points"><%= player.stats.points %></td>
+          <td class="center-col leaderboard__form"><%= player.stats.won %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

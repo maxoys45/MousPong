@@ -1,24 +1,44 @@
 <div class="container leaderboard">
   <h1>Previous Matches</h1>
 
-  <ul class="list">
-    <% matches.forEach(match => { %>
-      <script>
-        var date = new Date('<%= match.date %>')
-        var d = date.getDate()
-        var m = date.getMonth() + 1
-        var y = date.getFullYear()
+  <a href="/users/logout" class="btn btn-secondary">Logout</a>
 
-        console.log(`d:${d}, m:${m}, y:${y}`)
-      </script>
+  <a href="/matches/new" class="btn btn-primary">Add new match</a>
 
-      <li>
-        <span><%= match.player1.name %></span>
-        <span><%= match.player1score %></span>
-        <span>:</span>
-        <span><%= match.player2score %></span>
-        <span><%= match.player2.name %></span>
-      </li>
-    <% }) %>
-  </ul>
+  <a href="/" class="btn btn-secondary">View leaderboard</a>
+</div>
+
+<div class="container mt-4">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th class="heading left-col" scope="col" style="width: 30%;">Player 1</th>
+        <th class="heading center-col" scope="col">PTS</th>
+        <th class="heading center-col" scope="col">VS</th>
+        <th class="heading center-col" scope="col">PTS</th>
+        <th class="heading right-col" scope="col" style="width: 30%;">Player 2</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% matches.forEach(match => { %>
+        <script>
+          var date = new Date('<%= match.date %>')
+          var d = date.getDate()
+          var m = date.getMonth() + 1
+          var y = date.getFullYear()
+
+          console.log(`d:${d}, m:${m}, y:${y}`)
+        </script>
+
+        <tr>
+          <td class="left-col"><%= match.player1.name %></td>
+          <td class="center-col"><%= match.player1score %></td>
+          <td class="center-col"> : </td>
+          <td class="center-col"><%= match.player2score %></td>
+          <td class="right-col"><%= match.player2.name %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 </div>

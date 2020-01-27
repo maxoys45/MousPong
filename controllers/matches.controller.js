@@ -42,7 +42,7 @@ const updateUserStats = (p1, p1s, p2, p2s) => {
     let winner
     let loser
 
-    if (p1s > p2s) {
+    if (Number(p1s) > Number(p2s)) {
       winner = p1
       loser = p2
     } else {
@@ -117,7 +117,7 @@ export const addNewMatch = (req, res) => {
  */
 export const getMatches = (req, res) => {
   Match
-    .find({}, null, { sort: { date: 1 }})
+    .find({}, null, { sort: { date: -1 }})
     .populate('player1')
     .populate('player2')
     .exec((err, matches) => {
