@@ -30,6 +30,18 @@ const UserSchema = new mongoose.Schema({
       type: Number,
       default: 0,
     },
+    scoreFor: {
+      type: Number,
+      default: 0
+    },
+    scoreAgainst: {
+      type: Number,
+      default: 0
+    },
+    scoreDiff: {
+      type: Number,
+      default: 0
+    },
     points: {
       type: Number,
       default: 0,

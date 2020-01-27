@@ -42,22 +42,41 @@ const updateUserStats = (p1, p1s, p2, p2s, matchId) => {
     let winner
     let loser
 
+    // Detemine which player is the winner
     if (Number(p1s) > Number(p2s)) {
-      winner = p1
-      loser = p2
+      winner = { id: p1, points: p1s }
+      loser = { id: p2, points: p2s }
     } else {
-      winner = p2,
-      loser = p1
+      winner = { id: p2, points: p2s }
+      loser = { id: p1, points: p1s }
     }
 
-    User.updateOne({ _id: winner }, {
+    // Calculate score difference
+    winner.diff = winner.points - loser.points
+    loser.diff = loser.points - winner.points
+
+    // Update User db
+    User.updateOne({ _id: winner.id }, {
       $push: { matches: matchId, 'stats.form': 1 },
-      $inc: { 'stats.played': 1, 'stats.won': 1, 'stats.points': 3 }
+      $inc: {
+        'stats.played': 1,
+        'stats.won': 1,
+        'stats.points': 3,
+        'stats.scoreFor': winner.points,
+        'stats.scoreAgainst': loser.points,
+        'stats.scoreDiff': winner.diff
+      }
     }).exec()
 
-    User.updateOne({ _id: loser }, {
+    User.updateOne({ _id: loser.id }, {
       $push: { matches: matchId, 'stats.form': 0 },
-      $inc: { 'stats.played': 1, 'stats.lost': 1 }
+      $inc: {
+        'stats.played': 1,
+        'stats.lost': 1,
+        'stats.scoreFor': loser.points,
+        'stats.scoreAgainst': winner.points,
+        'stats.scoreDiff': loser.diff
+      }
     }).exec()
   // })
 }

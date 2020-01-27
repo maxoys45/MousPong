@@ -6,7 +6,7 @@ import { User } from '../models/user.model'
  */
 const addWinPercentToUsers = (users) => {
   return new Promise((resolve, reject) => {
-    let usersWithPercentArr = []
+    const usersWithPercentArr = []
 
     users.forEach(user => {
       const { won, played } = user.stats
@@ -20,18 +20,24 @@ const addWinPercentToUsers = (users) => {
       usersWithPercentArr.push(user)
     })
 
-    // Sort based on winning percentage
+    // Sort based on winning percentage,
+    // If win percent is the same, goto score difference
     usersWithPercentArr.sort((a, b) => {
-      let valA
-      let valB
+      let winPercentA = parseFloat(a.stats.winningPercent)
+      let winPercentB = parseFloat(b.stats.winningPercent)
+      let scoreDiffA = parseFloat(a.stats.scoreDiff)
+      let scoreDiffB = parseFloat(b.stats.scoreDiff)
 
-      valA = parseFloat(a.stats.winningPercent)
-      valB = parseFloat(b.stats.winningPercent)
-
-      if (valA < valB) {
+      if (winPercentA < winPercentB) {
         return 1
-      } else if (valA > valB) {
+      } else if (winPercentA > winPercentB) {
         return -1
+      } else if (winPercentA === winPercentB) {
+        if (scoreDiffA < scoreDiffB) {
+          return 1
+        } else if (scoreDiffA > scoreDiffB) {
+          return -1
+        }
       }
 
       return 0
@@ -49,7 +55,7 @@ const addWinPercentToUsers = (users) => {
  */
 const limitUsersForm = (users) => {
   return new Promise((resolve, reject) => {
-    let usersWithLimitedForm = []
+    const usersWithLimitedForm = []
 
     users.forEach(user => {
       let { form } = user.stats
