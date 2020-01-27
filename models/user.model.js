@@ -36,7 +36,8 @@ const UserSchema = new mongoose.Schema({
     },
     winningPercent: {
       type: Number
-    }
+    },
+    form: [ Number ]
   },
   matches: [
     {

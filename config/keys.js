@@ -3,7 +3,7 @@ const prod = {
 }
 
 const dev = {
-  MongoURI: 'mongodb://localhost:27017/mouspong'
+  MongoURI: 'mongodb://localhost:27017/mouspong2'
 }
 
-module.exports = prod
+module.exports = dev

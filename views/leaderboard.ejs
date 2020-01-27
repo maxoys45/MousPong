@@ -22,7 +22,7 @@
         <th class="heading center-col" scope="col">WON</th>
         <th class="heading center-col" scope="col">LOST</th>
         <th class="heading center-col" scope="col" style="width: 20%;">WIN %</th>
-        <!-- <th class="heading center-col" scope="col">FORM</th> -->
+        <th class="heading center-col" scope="col">FORM</th>
       </tr>
     </thead>
 
@@ -35,7 +35,11 @@
           <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
           <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>
           <td class="center-col leaderboard__points"><%= player.stats.winningPercent %>%</td>
-          <!-- <td class="center-col leaderboard__form"><%= player.stats.won %></td> -->
+          <td class="center-col leaderboard__form">
+            <% player.stats.last5.forEach(result => { %>
+              <i class="fas fa-<%= (result === 1) ? 'check' : 'times' %>-circle"></i>
+            <% }) %>
+          </td>
         </tr>
       <% }) %>
     </tbody>

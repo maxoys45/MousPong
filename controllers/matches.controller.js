@@ -51,13 +51,13 @@ const updateUserStats = (p1, p1s, p2, p2s, matchId) => {
     }
 
     User.updateOne({ _id: winner }, {
-      $push: { matches: matchId },
-      $inc: { "stats.played": 1, "stats.won": 1, "stats.points": 3 }
+      $push: { matches: matchId, 'stats.form': 1 },
+      $inc: { 'stats.played': 1, 'stats.won': 1, 'stats.points': 3 }
     }).exec()
 
     User.updateOne({ _id: loser }, {
-      $push: { matches: matchId },
-      $inc: { "stats.played": 1, "stats.lost": 1 }
+      $push: { matches: matchId, 'stats.form': 0 },
+      $inc: { 'stats.played': 1, 'stats.lost': 1 }
     }).exec()
   // })
 }
