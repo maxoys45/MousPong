@@ -6,4 +6,4 @@ const dev = {
   MongoURI: 'mongodb://localhost:27017/mouspong'
 }
 
-module.exports = dev
+module.exports = prod

@@ -37,7 +37,7 @@ export const getNewMatch = (req, res) => {
  * @param {Object} p2 player2
  * @param {Number} p2s player2score
  */
-const updateUserStats = (p1, p1s, p2, p2s) => {
+const updateUserStats = (p1, p1s, p2, p2s, matchId) => {
   // return new Promise((resolve, reject) => {
     let winner
     let loser
@@ -51,10 +51,12 @@ const updateUserStats = (p1, p1s, p2, p2s) => {
     }
 
     User.updateOne({ _id: winner }, {
+      $push: { matches: matchId },
       $inc: { "stats.played": 1, "stats.won": 1, "stats.points": 3 }
     }).exec()
 
     User.updateOne({ _id: loser }, {
+      $push: { matches: matchId },
       $inc: { "stats.played": 1, "stats.lost": 1 }
     }).exec()
   // })
@@ -94,14 +96,14 @@ export const addNewMatch = (req, res) => {
         })
       })
   } else {
-    updateUserStats(player1, player1score, player2, player2score)
-
     const newMatch = new Match({
       player1,
       player1score,
       player2,
       player2score
     })
+
+    updateUserStats(player1, player1score, player2, player2score, newMatch._id)
 
     newMatch.save()
       .then(() => {

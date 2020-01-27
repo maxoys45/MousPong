@@ -33,9 +33,12 @@ const UserSchema = new mongoose.Schema({
     points: {
       type: Number,
       default: 0,
+    },
+    winningPercent: {
+      type: Number
     }
   },
-  _matches: [
+  matches: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Match'
