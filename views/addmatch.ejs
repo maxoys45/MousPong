@@ -1,51 +1,61 @@
-<h1>Add new match</h1>
+<div class="container mt-4">
+  <h1>Add new match</h1>
 
-<%- include('./partials/messages') -%>
+  <a href="/" class="btn btn-primary">View leaderboard</a>
 
-<form action="/matches/new" method="POST">
-  <div class="row">
-    <div class="input-group mb-3 col-md">
-      <div class="input-group-prepend">
-        <span class="input-group-text">Player 1</span>
+  <a href="/matches/history" class="btn btn-primary">View previous matches</a>
+
+  <a href="/users/logout" class="btn btn-secondary">Logout</a>
+</div>
+
+<div class="container mt-4">
+  <%- include('./partials/messages') -%>
+
+  <form action="/matches/new" method="POST">
+    <div class="row">
+      <div class="input-group mb-3 col-md">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Player 1</span>
+        </div>
+
+        <input type="hidden" id="player1" name="player1" value="<%= user.id %>">
+        <input readonly type="text" class="form-control" aria-label="Username" value="<%= user.name %>">
       </div>
 
-      <input type="hidden" id="player1" name="player1" value="<%= user.id %>">
-      <input readonly type="text" class="form-control" aria-label="Username" value="<%= user.name %>">
+      <div class="input-group mb-3 col-md">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Player 1 Score</span>
+        </div>
+
+        <input id="player1score" name="player1score" type="number" class="form-control" aria-label="Score" value="<%= typeof player1score != 'undefined' ? player1score : '' %>">
+      </div>
     </div>
 
-    <div class="input-group mb-3 col-md">
-      <div class="input-group-prepend">
-        <span class="input-group-text">Player 1 Score</span>
+    <div class="row">
+      <div class="input-group mb-3 col-md">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="player2">Player 2</label>
+        </div>
+
+        <select class="custom-select" id="player2" name="player2">
+          <option value="">Choose...</option>
+          <% opponents.forEach(opponent => { %>
+            <option value="<%= opponent.id %>"<%= typeof player2 != 'undefined' && player2 === opponent.id ? ' selected' : '' %>><%= opponent.name %></option>
+          <% }) %>
+        </select>
       </div>
 
-      <input id="player1score" name="player1score" type="number" class="form-control" aria-label="Score" value="<%= typeof player1score != 'undefined' ? player1score : '' %>">
-    </div>
-  </div>
+      <div class="input-group mb-3 col-md">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Player 2 Score</span>
+        </div>
 
-  <div class="row">
-    <div class="input-group mb-3 col-md">
-      <div class="input-group-prepend">
-        <label class="input-group-text" for="player2">Player 2</label>
+        <input id="player2score" name="player2score" type="number" class="form-control" aria-label="Score" value="<%= typeof player2score != 'undefined' ? player2score : '' %>">
       </div>
-
-      <select class="custom-select" id="player2" name="player2">
-        <option value="">Choose...</option>
-        <% opponents.forEach(opponent => { %>
-          <option value="<%= opponent.id %>"<%= typeof player2 != 'undefined' && player2 === opponent.id ? ' selected' : '' %>><%= opponent.name %></option>
-        <% }) %>
-      </select>
     </div>
 
-    <div class="input-group mb-3 col-md">
-      <div class="input-group-prepend">
-        <span class="input-group-text">Player 2 Score</span>
-      </div>
-
-      <input id="player2score" name="player2score" type="number" class="form-control" aria-label="Score" value="<%= typeof player2score != 'undefined' ? player2score : '' %>">
-    </div>
-  </div>
-
-  <button type="submit" class="btn btn-primary btn-block">
-    Add match
-  </button>
-</form>
+    <button type="submit" class="btn btn-success">
+      Add match
+    </button>
+  </form>
+</div>

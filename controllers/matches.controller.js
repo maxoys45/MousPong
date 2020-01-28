@@ -1,6 +1,8 @@
 import { Match } from '../models/match.model'
 import { User } from '../models/user.model'
 
+import { numDifference } from '../helpers/utils'
+
 /**
  * Get a list of the opponents.
  */
@@ -89,7 +91,7 @@ export const addNewMatch = (req, res) => {
 
   let errors = []
 
-  if (!player1 || !player1score || !player1 || !player2score) {
+  if (!player1 || !player1score || !player2 || !player2score) {
     errors.push({ msg: 'Please enter both scores and the opponent.' })
   }
 
@@ -99,6 +101,16 @@ export const addNewMatch = (req, res) => {
 
   if (player1score < 11 && player2score < 11) {
     errors.push({ msg: 'The scores entered are too low.' })
+  }
+
+  if (player1score >= 10 && player2score >= 10 && numDifference(player1score, player2score) !== 2) {
+    errors.push({ msg: 'You must win by 2 clear points.' })
+  }
+
+  if (player1score > 11 && player2score > 9 || player1score < 9 && player2score > 11) {
+    errors.push({ msg: 'You cannot score more than 11 points unless in overtime.' })
+
+    // this isnt working
   }
 
   if (errors.length) {
