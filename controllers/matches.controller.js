@@ -87,30 +87,28 @@ const updateUserStats = (p1, p1s, p2, p2s, matchId) => {
  * Add a new match.
  */
 export const addNewMatch = (req, res) => {
-  const { player1, player1score, player2, player2score } = req.body
+  const { player1: p1, player1score: p1s, player2: p2, player2score: p2s } = req.body
 
   let errors = []
 
-  if (!player1 || !player1score || !player2 || !player2score) {
+  if (!p1 || !p1s || !p2 || !p2s) {
     errors.push({ msg: 'Please enter both scores and the opponent.' })
   }
 
-  if (player1score === player2score) {
+  if (p1s === p2s) {
     errors.push({ msg: 'Games cannot end in a draw.' })
   }
 
-  if (player1score < 11 && player2score < 11) {
+  if (p1s < 11 && p2s < 11) {
     errors.push({ msg: 'The scores entered are too low.' })
   }
 
-  if (player1score >= 10 && player2score >= 10 && numDifference(player1score, player2score) !== 2) {
-    errors.push({ msg: 'You must win by 2 clear points.' })
+  if (p1s >= 10 && p2s >= 10 && numDifference(p1s, p2s) !== 2) {
+    errors.push({ msg: 'In overtime, a match must finish with a difference of 2.' })
   }
 
-  if (player1score > 11 && player2score > 9 || player1score < 9 && player2score > 11) {
+  if (p1s > 11 && p2s < 9 || p1s < 9 && p2s > 11) {
     errors.push({ msg: 'You cannot score more than 11 points unless in overtime.' })
-
-    // this isnt working
   }
 
   if (errors.length) {
@@ -120,25 +118,25 @@ export const addNewMatch = (req, res) => {
           user: req.user,
           opponents,
           errors,
-          player1,
-          player1score,
-          player2,
-          player2score
+          player1: p1,
+          player1score: p1s,
+          player2: p2,
+          player2score: p2s
         })
       })
   } else {
     const newMatch = new Match({
-      player1,
-      player1score,
-      player2,
-      player2score
+      player1: p1,
+      player1score: p1s,
+      player2: p2,
+      player2score: p2s
     })
 
-    updateUserStats(player1, player1score, player2, player2score, newMatch._id)
+    updateUserStats(p1, p1s, p2, p2s, newMatch._id)
 
     newMatch.save()
       .then(() => {
-        req.flash('success_msg', 'New match has been added.')
+        req.flash('light_msg', 'New match has been added.')
         res.redirect('/')
       })
       .catch (err => console.error(err))

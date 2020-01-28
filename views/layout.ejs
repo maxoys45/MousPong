@@ -14,7 +14,7 @@
     *, *::before, *::after { box-sizing: border-box; }
 
     .table { table-layout: fixed; }
-    .table td { vertical-align: middle; }
+    .table td { vertical-align: middle; padding: 0.65rem 0.75rem; }
     .table .center-col { text-align: center; }
     .table .left-col { text-align: left; }
     .table .right-col { text-align: right; }
@@ -26,9 +26,7 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <%- body %>
-  </div>
+  <%- body %>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
