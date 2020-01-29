@@ -5,7 +5,7 @@ import { User } from '../models/user.model'
  * @param {Array} users the returned users array
  */
 const addWinPercentToUsers = (users) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     const usersWithPercentArr = []
 
     users.forEach(user => {
@@ -51,10 +51,10 @@ const addWinPercentToUsers = (users) => {
 
 /**
  * Take each users form array and limit to the last 5 entries.
- * @param {Array} users the user object with winning percentage property.
+ * @param {Array} users the users array with winning percentage property.
  */
 const limitUsersForm = (users) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     const usersWithLimitedForm = []
 
     users.forEach(user => {
@@ -71,6 +71,29 @@ const limitUsersForm = (users) => {
 }
 
 /**
+ * Split the users into 2 groups based on if they've played enough games to be ranked.
+ * @param {Array} users the users array passed from previous functions.
+ */
+const splitIntoMinimumPlayed = (users) => {
+  return new Promise(resolve => {
+    const splitUsers = {
+      ranked: [],
+      unranked: [],
+    }
+
+    users.forEach(user => {
+      if (user.stats.played >= 5) {
+        splitUsers.ranked.push(user)
+      } else {
+        splitUsers.unranked.push(user)
+      }
+    })
+
+    resolve(splitUsers)
+  })
+}
+
+/**
  * Get all the users and return them in winning percentage order.
  */
 const populateLeaderboard = async () => {
@@ -78,6 +101,7 @@ const populateLeaderboard = async () => {
     let users = await User.find({}).populate('matches').exec()
     users = await addWinPercentToUsers(users)
     users = await limitUsersForm(users)
+    users = await splitIntoMinimumPlayed(users)
 
     return users
   } catch (err) {

@@ -28,7 +28,7 @@
     </thead>
 
     <tbody>
-      <% standings.forEach((player, index) => { %>
+      <% standings.ranked.forEach((player, index) => { %>
         <tr>
           <td class="center-col leaderboard__rank"<%= (index < 3) ? ` data-rank=${(index + 1)}` : '' %>>
             <% if (index < 3) { %>
@@ -46,6 +46,23 @@
           <td class="center-col leaderboard__form">
             <% player.stats.last5.forEach(result => { %>
               <i class="fas fa-<%= (result === 1) ? 'check' : 'times' %>-circle text-<%= (result === 1) ? 'success' : 'danger' %>"></i>
+            <% }) %>
+          </td>
+        </tr>
+      <% }) %>
+
+      <% standings.unranked.forEach((player, index) => { %>
+        <tr class="unranked">
+          <td class="center-col leaderboard__rank">-</td>
+          <td class="leaderboard__player"><%= player.name %></td>
+          <td class="center-col leaderboard__games-played"><%= player.stats.played %></td>
+          <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
+          <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>
+          <td class="center-col leaderboard__point-diff"><%= player.stats.scoreDiff %></td>
+          <td class="center-col leaderboard__win-percent"><%= player.stats.winningPercent %>%</td>
+          <td class="center-col leaderboard__form">
+            <% player.stats.last5.forEach(result => { %>
+              <i class="fas fa-<%= (result === 1) ? 'check' : 'times' %>-circle"></i>
             <% }) %>
           </td>
         </tr>
