@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h1>Leaderboard</h1>
+  <h2>Leaderboard</h2>
 
   <!-- <p class="lead mb-3">Welcome <%= user.name %></p> -->
 
@@ -16,14 +16,14 @@
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
-        <th class="heading center-col" scope="col">#</th>
-        <th class="heading" scope="col" style="width: 25%;">NAME</th>
-        <th class="heading center-col" scope="col">PLD</th>
-        <th class="heading center-col" scope="col">WON</th>
-        <th class="heading center-col" scope="col">LOSS</th>
-        <th class="heading center-col" scope="col">+/-</th>
-        <th class="heading center-col" scope="col">WIN %</th>
-        <th class="heading center-col" scope="col" style="width: 15%;">FORM</th>
+        <th class="heading center-col">#</th>
+        <th class="heading" style="width: 25%;">NAME</th>
+        <th class="heading center-col mobile-hide">PLD</th>
+        <th class="heading center-col mobile-hide">WON</th>
+        <th class="heading center-col mobile-hide">LOST</th>
+        <th class="heading center-col">+/-</th>
+        <th class="heading center-col">WIN&nbsp;%</th>
+        <th class="heading center-col mobile-hide" style="width: 25%;">FORM</th>
       </tr>
     </thead>
 
@@ -38,12 +38,12 @@
             <% } %>
           </td>
           <td class="leaderboard__player"><%= player.name %></td>
-          <td class="center-col leaderboard__games-played"><%= player.stats.played %></td>
-          <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
-          <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>
+          <td class="center-col leaderboard__games-played mobile-hide"><%= player.stats.played %></td>
+          <td class="center-col leaderboard__games-won mobile-hide"><%= player.stats.won %></td>
+          <td class="center-col leaderboard__games-lost mobile-hide"><%= player.stats.lost %></td>
           <td class="center-col leaderboard__point-diff"><%= player.stats.scoreDiff %></td>
           <td class="center-col leaderboard__win-percent"><%= player.stats.winningPercent %>%</td>
-          <td class="center-col leaderboard__form">
+          <td class="center-col leaderboard__form mobile-hide">
             <% player.stats.last5.forEach(result => { %>
               <i class="fas fa-<%= (result === 1) ? 'check' : 'times' %>-circle text-<%= (result === 1) ? 'success' : 'danger' %>"></i>
             <% }) %>
@@ -55,12 +55,12 @@
         <tr class="unranked">
           <td class="center-col leaderboard__rank">-</td>
           <td class="leaderboard__player"><%= player.name %></td>
-          <td class="center-col leaderboard__games-played"><%= player.stats.played %></td>
-          <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
-          <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>
+          <td class="center-col leaderboard__games-played mobile-hide"><%= player.stats.played %></td>
+          <td class="center-col leaderboard__games-won mobile-hide"><%= player.stats.won %></td>
+          <td class="center-col leaderboard__games-lost mobile-hide"><%= player.stats.lost %></td>
           <td class="center-col leaderboard__point-diff"><%= player.stats.scoreDiff %></td>
           <td class="center-col leaderboard__win-percent"><%= player.stats.winningPercent %>%</td>
-          <td class="center-col leaderboard__form">
+          <td class="center-col leaderboard__form mobile-hide">
             <% player.stats.last5.forEach(result => { %>
               <i class="fas fa-<%= (result === 1) ? 'check' : 'times' %>-circle"></i>
             <% }) %>
