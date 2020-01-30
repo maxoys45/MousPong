@@ -1,0 +1,68 @@
+.page-carousel {
+  overflow-x: hidden;
+
+  &__slide {
+    position: relative;
+    width: 100%;
+  }
+
+  &__img {
+    width: 100%;
+
+    &#{&}--mobile {
+      @include bp($SCR_MEDIUM) {
+        display: none;
+      }
+    }
+
+    &#{&}--desktop {
+      @include bp($SCR_MEDIUM, max-width) {
+        display: none;
+      }
+    }
+  }
+
+  &__overlay {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba($COLOR_DARK, 0.4);
+
+    @include bp($SCR_MEDIUM) {
+      padding: 4rem;
+    }
+  }
+
+  &__overlay-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 640px;
+    margin: 0 auto;
+    color: $COLOR_WHITE;
+    text-align: center;
+  }
+
+  &__title {
+    font-weight: $WEIGHT_LIGHT;
+  }
+
+  &__content {
+    @include bp($SCR_SMALL, max-width) {
+      display: none;
+    }
+  }
+
+  &__btn {
+    @include bp($SCR_SMALL) {
+      margin-top: 2rem;
+    }
+  }
+}

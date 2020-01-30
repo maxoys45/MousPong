@@ -1,0 +1,43 @@
+.site-subnav {
+  @include transition(transform $DURATION_NORMAL ease-in-out);
+  background-color: $COLOR_LIGHT;
+  color: $COLOR_DARK;
+
+  @include bp($SCR_MEDIUM) {
+    padding: 2rem;
+    border: 1px solid darken($COLOR_NOVELLO, 1);
+    border-width: 0 1px 1px;
+  }
+
+  &__list {
+
+  }
+
+  &__item {
+  }
+
+  &__link {
+    display: block;
+    padding: 1rem 2rem;
+
+    @include hover {
+      text-decoration: underline;
+    }
+
+    &.is-active {
+      text-decoration: underline;
+    }
+
+    @include bp($SCR_MEDIUM, max-width) {
+      font-size: .8em;
+    }
+
+    @include bp($SCR_MEDIUM) {
+      padding: .5rem 0;
+    }
+
+    @include bp($SCR_LARGE) {
+      padding: 1rem 0;
+    }
+  }
+}

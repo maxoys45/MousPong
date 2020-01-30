@@ -1,0 +1,40 @@
+/**
+ * Helpers: Functions
+ * -----------------------------------------------------------------------------
+ * Reusuable scss functions to used to build more extensible scss mixins.
+ *
+ */
+
+/**
+ * Returns the transition properties in the correct format
+ * This function is used by @mixin transition($transitions...)
+ */
+@function get-transition-properties($transition) {
+  $property: all;
+  $duration: $DURATION_NORMAL;
+  $easing: $EASE_IN_OUT;
+  $delay: null;
+
+  $defaultProperties: (
+    $property,
+    $duration,
+    $easing,
+    $delay
+  );
+
+  $properties: ();
+
+  @for $i from 1 through length($defaultProperties) {
+    $p: null;
+
+    @if $i <= length($transition) {
+      $p: nth($transition, $i);
+    } @else {
+      $p: nth($defaultProperties, $i);
+    }
+
+    $properties: append($properties, $p);
+  }
+
+  @return $properties;
+}

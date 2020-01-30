@@ -1,0 +1,165 @@
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
+html {
+	line-height: 1;
+  font-size: 10px;
+  scroll-behavior: smooth;
+
+  &.is-locked {
+    overflow-y: hidden;
+  }
+}
+
+body {
+  color: $COLOR_DARK;
+  font-size: $FONTSIZE_DEFAULT;
+  font-family: $FONT_DEFAULT;
+  background-color: $COLOR_LIGHT;
+
+  &::after {
+    @include bp($SCR_MEDIUM, max-width) {
+      @include transition(opacity $DURATION_NORMAL ease-in-out);
+      content: '';
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: $LAYER_BELOW_SLIDE_MENU;
+      background-color: $COLOR_BLACK;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  .is-locked & {
+    overflow-y: hidden;
+    position: relative;
+    // position: fixed;
+    // height: 100%;
+  }
+
+  .is-nav-open & {
+    @include bp($SCR_MEDIUM, max-width) {
+      &::after {
+        opacity: 0.5;
+        pointer-events: auto;
+      }
+    }
+  }
+}
+
+.wrapper,
+%wrapper {
+  @include padding(x, 2rem, x, 2rem);
+  margin: 0 auto;
+  max-width: 1440px;
+
+  @include bp($SCR_SMALL) {
+    @include padding(x, 4rem, x, 4rem);
+  }
+
+  @include bp($SCR_LARGE) {
+    @include padding(x, 6rem, x, 6rem);
+  }
+}
+
+.wrapper--narrow {
+  max-width: 960px;
+}
+
+// .main {
+//   @include bp($SCR_MEDIUM, max-width) {
+//     padding-top: 7.4rem;
+//   }
+// }
+
+.page-content {
+  @include transition(opacity);
+  padding-top: 1em;
+  opacity: 0;
+
+  @include bp($SCR_MEDIUM) {
+    padding-top: 4em;
+  }
+
+  &.is-active {
+    opacity: 1;
+  }
+
+  &__inner {
+    padding-top: 2rem;
+
+    @include bp($SCR_MEDIUM) {
+      padding-top: 4rem;
+    }
+  }
+}
+
+.copy {
+  line-height: $LINEHEIGHT_DEFAULT;
+
+  p, ul {
+    &:not(:last-child) {
+      margin-bottom: 1em;
+    }
+  }
+
+  p {
+    + h3 {
+      margin-top: .8em;
+    }
+  }
+
+  ul {
+  }
+
+  li {
+    position: relative;
+    padding-left: 2rem;
+
+    @include bp($SCR_MEDIUM) {
+      padding-left: 3rem;
+    }
+
+    &::before {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 7px;
+      left: 0;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 1em;
+      background-color: $COLOR_NOVELLO;
+    }
+
+    &:not(:last-of-type) {
+      margin-bottom: .5em;
+    }
+  }
+
+  a:not(.no-link) {
+    color: $COLOR_FOCUS_ORANGE;
+    text-decoration: underline;
+  }
+}
+
+.indented {
+  @include padding(x, 1rem, x, 1rem);
+
+  @include bp($SCR_MEDIUM) {
+    @include padding(x, 2rem, x, 2rem);
+  }
+}
+
+// temporary disabling of links
+a.disabled {
+  pointer-events: none;
+  text-decoration: line-through;
+  opacity: 0.7;
+}

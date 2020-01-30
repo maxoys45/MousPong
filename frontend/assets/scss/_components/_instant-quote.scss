@@ -1,0 +1,72 @@
+.iq {
+  @include layered-shadow($angle: 1, $opacity: 0.06);
+  $step: #{&}__step;
+  border-radius: $RADIUS;
+
+  &__title {
+    margin-bottom: 0;
+    padding: 1rem 2rem;
+    background-color: $COLOR_FOCUS_ORANGE;
+    color: $COLOR_WHITE;
+  }
+
+  &__step-wrapper {
+    padding: 2rem;
+  }
+
+  &__step-container {
+    ~ #{$step}.is-active {
+      margin-top: 2rem;
+    }
+  }
+
+  &__step {
+    display: none;
+
+    &.is-active {
+      display: block;
+
+      ~ #{$step}.is-active,
+      ~ #{$step}-container {
+        margin-top: 2rem;
+      }
+    }
+  }
+
+  &__step-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: .8em;
+  }
+
+  &__step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
+    background-color: $COLOR_NOVELLO;
+    color: $COLOR_WHITE;
+    border-radius: 10em;
+    flex-shrink: 0;
+  }
+
+  &__fields-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__estimated-quote {
+    font-size: 2em;
+    margin-bottom: 1rem;
+  }
+
+  &__plus-vat {
+    font-size: .5em;
+  }
+
+  &__noquote-text {
+    margin-bottom: 1em;
+  }
+}

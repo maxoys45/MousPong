@@ -1,0 +1,68 @@
+.modal {
+  $parent: &;
+
+  @include transition(transform $DURATION_INSTANT ease-in-out $DURATION_NORMAL, opacity $DURATION_NORMAL ease-in-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $LAYER_MODAL;
+  background-color: rgba($COLOR_BLACK, 0.5);
+  padding: 2rem;
+  will-change: transform;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+
+  @include bp($SCR_MEDIUM) {
+    padding: 4rem;
+  }
+
+  &.is-active {
+    @include transition(opacity $DURATION_NORMAL ease-in-out);
+    transform: translateZ(0) translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+
+    #{$parent}__inner {
+      @include transition(transform $DURATION_NORMAL ease-in-out $DURATION_NORMAL);
+      transform: translateZ(0) translateY(0);
+    }
+  }
+
+  &__inner {
+    @include transition(transform $DURATION_NORMAL ease-in-out);
+    @include layered-shadow($angle: 2, $opacity: 0.2);
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    max-width: $SCR_MEDIUM + px;
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 2rem;
+    background-color: $COLOR_WHITE;
+    will-change: transform;
+    transform: translateY(200%);
+    scroll-behavior: smooth;
+
+    @include bp($SCR_SMALL) {
+      max-height: 80%;
+    }
+
+    @include bp($SCR_MEDIUM) {
+      padding: 4rem;
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4rem;
+    padding: 1rem;
+  }
+}

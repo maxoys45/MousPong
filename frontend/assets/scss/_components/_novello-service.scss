@@ -1,0 +1,43 @@
+/**
+ * COMPONENT: NOVELLO SERVICE
+ *
+ */
+.novello-service {
+  padding: 1rem;
+
+  @include bp($SCR_MEDIUM) {
+    padding: 2rem;
+  }
+
+  &__link {
+    display: block;
+    position: relative;
+    border-radius: $RADIUS;
+    overflow: hidden;
+    box-shadow: $SHADOW_1;
+  }
+
+  &__overlay {
+    @include transition(background-color 0.2s ease-in-out);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba($COLOR_BLACK, 0.5);
+    z-index: $LAYER_FLAT;
+    padding: 2rem;
+
+    &:hover {
+      background-color: rgba($COLOR_BLACK, 0.3);
+    }
+  }
+
+  &__title {
+    color: $COLOR_WHITE;
+    text-transform: uppercase;
+  }
+}

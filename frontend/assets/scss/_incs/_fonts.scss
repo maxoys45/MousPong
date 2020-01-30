@@ -1,0 +1,26 @@
+// LATO
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+
+// ICOMOON
+@font-face {
+  font-family: 'icomoon';
+  src:    url('../fonts/icomoon.eot?wtzv43');
+  src:    url('../fonts/icomoon.eot?wtzv43#iefix') format('embedded-opentype'),
+  url('../fonts/icomoon.ttf?wtzv43') format('truetype'),
+  url('../fonts/icomoon.woff?wtzv43') format('woff'),
+  url('../fonts/icomoon.svg?wtzv43#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon-cart {
+  content: "\e9fe";
+}
+
+.icon-menu {
+  content: "\ec71";
+}
+
+.icon-close {
+  content: "\ed6d";
+}

@@ -1,0 +1,33 @@
+/**
+ * SECTION: NOVELLO SERVICES
+ *
+ */
+.novello-services {
+  @include padding(2rem, x, 2rem, x);
+  
+  @include bp($SCR_MEDIUM) {
+    @include padding(6rem, x, 6rem, x);    
+  }
+
+  &__list {
+    margin: 0 -1rem;
+    
+    @include bp($SCR_MEDIUM) {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -2rem;
+    }
+  }
+
+  &__block {
+    width: 100%;
+
+    @include bp($SCR_MEDIUM) {
+      width: percentage(1 / 2);
+    }
+
+    @include bp($SCR_LARGE) {
+      width: percentage(1 / 3);
+    }
+  }
+}

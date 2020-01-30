@@ -1,0 +1,25 @@
+.slide-contact {
+  padding: 2.5rem;
+  background-color: $COLOR_DARK;
+  color: $COLOR_WHITE;
+
+  &__title {
+    font-size: 1.6em;
+    line-height: 1;
+  }
+
+  &__number,
+  &__email {
+    color: $COLOR_FOCUS_ORANGE;
+    display: block;
+  }
+
+  &__number {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__email {
+
+  }
+}

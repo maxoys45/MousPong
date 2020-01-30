@@ -1,0 +1,57 @@
+.slide-menu {
+  @include transition(transform $DURATION_NORMAL ease-in-out);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 40rem;
+  transform: translateX(100%);
+  z-index: $LAYER_SLIDE_MENU;
+  background-color: $COLOR_LIGHT;
+
+  &::after {
+    @include bp($SCR_MEDIUM, max-width) {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 2.5rem;
+      background-image: linear-gradient(to bottom, rgba($COLOR_WHITE, 1) 0%, rgba($COLOR_WHITE, 0));
+    }
+  }
+
+  .is-nav-open & {
+    @include bp($SCR_MEDIUM, max-width) {
+      transform: translateX(0);
+    }
+  }
+
+  &__quote-btn {
+    margin-bottom: 1rem;
+
+    @include bp($SCR_SMALL) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__contact {
+    margin-top: auto;
+    position: relative;
+
+    &::after {
+      @include bp($SCR_MEDIUM, max-width) {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        left: 0;
+        height: 2.5rem;
+        background-image: linear-gradient(to top, rgba($COLOR_WHITE, 1) 0%, rgba($COLOR_WHITE, 0));
+      }
+    }
+  }
+}

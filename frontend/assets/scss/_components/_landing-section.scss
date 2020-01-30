@@ -1,0 +1,87 @@
+/**
+ * COMPONENT: LANDING SECTION
+ *
+ */
+.landing-section {
+  @include padding(3rem, x, 3rem, x);
+  $parent: &;
+
+  @include bp($SCR_MEDIUM) {
+    @include padding(4rem, x, 4rem, x);
+  }
+
+  @include bp($SCR_LARGE) {
+    @include padding(6rem, x, 6rem, x);
+  }
+
+  &:nth-child(even) {
+    background-color: $COLOR_WHITE;
+  }
+
+  &:nth-child(odd) {
+    border-color: darken($COLOR_LIGHT, 3%);
+    border-width: 1px 0;
+    border-style: solid;
+  }
+
+  &:nth-child(odd):not(:last-of-type) {
+    #{$parent}__content {
+      @include bp($SCR_MEDIUM) {
+        order: 2;
+        margin-right: 0;
+        margin-left: 4rem;
+      }
+
+      @include bp($SCR_LARGE) {
+        margin-left: 8rem;
+      }
+    }
+  }
+
+  &__inner {
+    position: relative;
+
+    @include bp($SCR_MEDIUM) {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+    }
+  }
+
+  &__content {
+    @include bp($SCR_MEDIUM) {
+      width: 50%;
+      margin-right: 4rem;
+    }
+
+    @include bp($SCR_LARGE) {
+      margin-right: 8rem;
+    }
+  }
+
+  &__img-frame {
+    @include bp($SCR_MEDIUM, max-width) {
+      display: none;
+    }
+
+    @include bp($SCR_MEDIUM) {
+      width: 50%;
+    }
+  }
+
+  &__img-container {
+    height: 0;
+    position: relative;
+    padding-top: percentage(4 / 6);
+    overflow: hidden;
+  }
+
+  &__img {
+    width: 100%;
+    max-width: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

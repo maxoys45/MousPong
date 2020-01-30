@@ -1,0 +1,119 @@
+.page-hero {
+  position: relative;
+  height: 0;
+  padding-top: percentage(12 / 16);
+  overflow: hidden;
+
+  @include bp($SCR_MEDIUM) {
+    padding-top: percentage(9 / 24);
+  }
+
+  @include bp($SCR_LARGE) {
+    padding-top: percentage(8 / 24);
+  }
+
+  @include bp($SCR_XL) {
+    padding-top: percentage(5 / 24);
+  }
+
+  &#{&}--home {
+    padding-top: percentage(8 / 10);
+
+    @include bp($SCR_MEDIUM) {
+      padding-top: percentage(9 / 20);
+    }
+
+    @include bp($SCR_LARGE) {
+      padding-top: percentage(2 / 5);
+    }
+
+    // create mixin for this
+    @media screen and (min-width: #{$SCR_LARGE}px) and (max-height: 800px) {
+      padding-top: percentage(2 / 6);
+    }
+  }
+
+  &::before {
+    @include bp($SCR_MEDIUM) {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: $LAYER_FLAT;
+      background-color: rgba($COLOR_BLACK, 0.4);
+    }
+  }
+
+  &__img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    max-width: none;
+
+    @include bp($SCR_MEDIUM) {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: $SCR_LARGE + px;
+    color: $COLOR_WHITE;
+    z-index: $LAYER_FLAT;
+    padding: 1.5rem;
+    background-color: rgba($COLOR_NOVELLO, 0.9);
+
+    @include bp($SCR_MEDIUM) {
+      top: 50%;
+      bottom: auto;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 0 2rem;
+      text-align: center;
+      background-color: transparent;
+      text-shadow: .2rem .2rem .2rem rgba($COLOR_BLACK, 0.5);
+    }
+  }
+
+  &__title {
+    margin: 0;
+
+    @include bp($SCR_MEDIUM, max-width) {
+      font-size: 1.6em;
+    }
+
+    &.has-subtitle {
+      &::after {
+        content: '';
+        width: 14px;
+        height: 14px;
+        display: block;
+        margin: 1rem auto 2rem;
+        background-color: $COLOR_WHITE;
+        transform: rotate(45deg);
+        box-shadow: .2rem 0 .2rem rgba($COLOR_BLACK, 0.5);
+
+        @include bp($SCR_MEDIUM) {
+          margin: .2rem auto 1.5rem;
+        }
+      }
+    }
+  }
+
+  &__subtitle {
+    margin: 0;
+
+    @include bp($SCR_MEDIUM, max-width) {
+      font-size: 1.2em;
+    }
+  }
+}

@@ -1,0 +1,47 @@
+/**
+ * COMPONENT: QUOTE TOOL
+ *
+ */
+.quote-tool {
+  &__input {
+    // @extend %hidden-input;
+  }
+  // $types: instant, surveys, valuations, leaseholdsValuations, partyWallMatters;
+
+  // @each $type in $types {
+  //   @for 
+  // }
+
+  // &[data-type="instant"] {
+
+  // }
+
+  // @for $i from 1 through 4 {
+  //   [data-step="#{$i}"] {
+  //     display: none;
+  //   }
+
+  //   &[data-show-step="#{$i}"] {
+  //     [data-step="#{$i}"] {
+  //       display: block;
+  //     }
+  //   }
+  // }
+  $categories: survey-services, valuation-services, leasehold-valuations;
+
+  @each $cat in $categories {
+    [data-show-category="#{$cat}"] {
+      [data-category="#{$cat}"] {
+        display: block;
+      }
+    }
+  }
+
+  [data-step] {
+    display: none;
+
+    &.is-active {
+      display: block;
+    }
+  }
+}

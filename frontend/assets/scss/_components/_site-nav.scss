@@ -1,0 +1,150 @@
+/**
+ * COMPONENT: SITE NAV
+ *
+ */
+.site-nav {
+  $parent: &;
+  padding: 1.5rem;
+
+  @include bp($SCR_MEDIUM, max-width) {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  @include bp($SCR_MEDIUM) {
+    padding: 0;
+  }
+
+  &__list {
+    @include bp($SCR_MEDIUM) {
+      display: flex;
+    }
+  }
+
+  &__item {
+    position: relative;
+    font-size: 1.2em;
+    line-height: $LINEHEIGHT_HEADING;
+
+    @include hover {
+      @include bp($SCR_MEDIUM) {
+        background-color: lighten($COLOR_NOVELLO, 5%);
+      }
+    }
+
+    &.is-active {
+      color: $COLOR_NOVELLO;
+
+      @include bp($SCR_MEDIUM) {
+        background-color: lighten($COLOR_NOVELLO, 5%);
+        color: $COLOR_WHITE;
+      }
+    }
+
+    @include bp($SCR_MEDIUM) {
+      font-size: .7em;
+    }
+
+    @include bp($SCR_LARGE) {
+      font-size: .9em;
+    }
+
+    &:first-of-type {
+      @include bp($SCR_MEDIUM) {
+        margin-left: -2rem;
+      }
+    }
+
+    &.has-subnav {
+      @include bp($SCR_MEDIUM) {
+        &::after {
+          @include transition(opacity $DURATION_NORMAL ease-in-out $DURATION_FAST);
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translate(-50%, 0);
+          width: 0;
+          height: 0;
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-bottom: 10px solid $COLOR_WHITE;
+          opacity: 0;
+        }
+
+        @include hover {
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  &__link {
+    display: block;
+    position: relative;
+    padding: 0.5rem 2.5rem;
+    margin: 0 -2.5rem;
+
+    @include hover {
+      @include bp($SCR_MEDIUM, max-width) {
+        text-decoration: underline;
+      }
+    }
+
+    @include bp($SCR_MEDIUM) {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      margin: 0;
+      padding: 1.5rem .6rem;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    @include bp($SCR_LARGE) {
+      padding: 1.5rem 1.2rem;
+    }
+
+    @include bp($SCR_XL) {
+      padding: 1.5rem 2rem;
+    }
+
+    br {
+      @include bp($SCR_MEDIUM, max-width) {
+        display: none;
+      }
+    }
+  }
+
+  &__subnav {
+    @include bp($SCR_MEDIUM) {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-left: -1px;
+      min-width: 300px;
+      z-index: $LAYER_BEHIND;
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+
+    &.right-aligned {
+      @include bp($SCR_MEDIUM) {
+        left: auto;
+        right: 0;
+        margin-left: 0;
+        margin-right: -1px;
+      }
+    }
+
+    #{$parent}__item:hover & {
+      @include bp($SCR_MEDIUM) {
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+    }
+  }
+}

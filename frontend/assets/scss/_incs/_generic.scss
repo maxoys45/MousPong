@@ -1,0 +1,205 @@
+// GENERIC STYLES
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input, button, select, textarea, optgroup, option {
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	line-height: $LINEHEIGHT_HEADING;
+}
+
+h1, .h1 {
+	font-weight: $WEIGHT_LIGHT;
+	font-size: 2.8em;
+	margin-bottom: .5em;
+
+	@include bp($SCR_MEDIUM) {
+		font-size: 3.6em;
+	}
+}
+
+h2, .h2 {
+	font-weight: $WEIGHT_LIGHT;
+	font-size: 2.2em;
+	margin-bottom: .5em;
+
+	@include bp($SCR_MEDIUM) {
+		font-size: 3.2em;
+	}
+}
+
+h3, .h3 {
+	font-weight: $WEIGHT_LIGHT;
+	font-size: 2em;
+	margin-bottom: .3em;
+
+	@include bp($SCR_MEDIUM) {
+		font-size: 2.6em;
+	}
+}
+
+h4, .h4 {
+	font-size: 1.6em;
+	margin-bottom: .8em;
+
+	@include bp($SCR_MEDIUM) {
+		font-size: 1.8em;
+	}
+}
+
+h5, .h5 {
+	font-weight: $WEIGHT_LIGHT;
+	font-size: 1.4em;
+
+	@include bp($SCR_MEDIUM) {
+		font-sizew: 1.6em;
+	}
+}
+
+a, button, input, textarea {
+	outline: none;
+}
+
+button {
+  padding: 0;
+	margin: 0;
+	outline: none;
+	appearance: none;
+	line-height: 1;
+	cursor: pointer;
+	background: none;
+	border: 0;
+}
+
+p {
+	line-height: $LINEHEIGHT_DEFAULT;
+
+	&:not(:last-of-type) {
+		margin-bottom: 1em;
+	}
+
+	a {
+		color: $COLOR_NOVELLO;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+}
+
+strong {
+	font-weight: $WEIGHT_BOLD;
+}
+
+input {
+	// appearance: none;
+	border-radius: 0;
+}
+
+.hidden {
+	display: none;
+}
+
+.hidden-input,
+%hidden-input {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: $LAYER_BEHIND;
+}
+
+iframe {
+	width:100%;
+}
+
+.clearfix,
+%clearfix {
+	&::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+.link {
+	color: $COLOR_FOCUS_ORANGE;
+}
+
+.icon {
+	display: inline-block;
+	vertical-align: middle;
+	width: 100%;
+	// height: 1.6rem;
+	fill: currentColor;
+}
+
+.button {
+	@include transition(background-color);
+	display: inline-block;
+	border-radius: $RADIUS;
+	appearance: none;
+	padding: .6em 1.8em;
+	letter-spacing: .5px;
+
+	&#{&}--primary {
+		@include hover {
+			background-color: $COLOR_FOCUS_ORANGE;
+		}
+		text-transform: uppercase;
+		background-color: $COLOR_DETAIL_ORANGE;
+		font-weight: $WEIGHT_BOLD;
+		color: $COLOR_WHITE;
+	}
+
+	&#{&}--outlined {
+		border: 1px solid currentColor;
+	}
+
+	&#{&}--wide {
+		padding: .6em 3em;
+	}
+}
+
+/**
+ * Hide elements using site breakpoints
+ */
+ $breakpoints: (
+	$SCR_TINY: tiny,
+	$SCR_SMALL: small,
+	$SCR_MEDIUM: medium,
+	$SCR_LARGE: large,
+	$SCR_XL: xl,
+	$SCR_WRAP: wrap
+);
+
+@each $bp, $val in $breakpoints {
+  .hide--#{$val}-up {
+		@include bp($bp) {
+			display: none !important;
+		}
+  }
+
+  .hide--#{$val}-down {
+    @include bp($bp, max-width) {
+      display: none !important;
+    }
+  }
+}
