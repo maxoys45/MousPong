@@ -20,14 +20,35 @@ const getOpponentsList = (req) => {
 }
 
 /**
+ * Get a list of the opponents.
+ */
+const getPlayersList = (req) => {
+  return new Promise(resolve => {
+    User.find({}, (err, users) => {
+      if (err) throw err
+
+      resolve(users)
+      return
+    })
+  })
+}
+
+/**
  * Render the match history template.
  */
 export const getNewMatch = (req, res) => {
-  getOpponentsList(req)
-    .then(opponents => {
+  // getOpponentsList(req)
+  //   .then(opponents => {
+  //     res.render('addmatch', {
+  //       user: req.user,
+  //       opponents
+  //     })
+  //   })
+  getPlayersList(req)
+    .then(players => {
       res.render('addmatch', {
         user: req.user,
-        opponents
+        players
       })
     })
 }
@@ -115,12 +136,16 @@ export const addNewMatch = (req, res) => {
     errors.push({ msg: 'You cannot enter a negative score.' })
   }
 
+  if (p1 === p2) {
+    errors.push({ msg: 'You cannot play yourself.' })
+  }
+
   if (errors.length) {
-    getOpponentsList(req)
-      .then((opponents) => {
+    getPlayersList(req)
+      .then(players => {
         res.render('addmatch', {
           user: req.user,
-          opponents,
+          players,
           errors,
           player1: p1,
           player1score: p1s,
