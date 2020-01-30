@@ -32,7 +32,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(session({
   secret: 'keyboard catoys45',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    maxAge: 86400000 // 24 hours
+  }
 }))
 
 // Passport middleware

@@ -111,6 +111,10 @@ export const addNewMatch = (req, res) => {
     errors.push({ msg: 'You cannot score more than 11 points unless in overtime.' })
   }
 
+  if (p1s < 0 || p2s < 0) {
+    errors.push({ msg: 'You cannot enter a negative score.' })
+  }
+
   if (errors.length) {
     getOpponentsList(req)
       .then((opponents) => {
