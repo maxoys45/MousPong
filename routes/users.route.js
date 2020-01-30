@@ -15,10 +15,10 @@ router
   .route('/logout')
   .get(getLogout)
 
-// // Register
-// router
-//   .route('/register')
-//   .get(getRegister)
-//   .post(postRegister)
+// Register
+router
+  .route('/register')
+  .get(getRegister)
+  .post(postRegister)
 
 export default router
