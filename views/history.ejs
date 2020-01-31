@@ -17,6 +17,7 @@
         <th class="heading" scope="col"></th>
         <th class="heading" scope="col">PTS</th>
         <th class="heading" scope="col">Player 2</th>
+        <th class="heading" scope="col">Remove?</th>
       </tr>
     </thead>
 
@@ -37,6 +38,9 @@
           <td class="">vs</td>
           <td class=""><%= match.player2score %></td>
           <td class=""><%= match.player2.name %></td>
+          <td>
+            <a href="/matches/delete/<%= match._id %>">Delete</a>
+          </td>
         </tr>
       <% }) %>
     </tbody>

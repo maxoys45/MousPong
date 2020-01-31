@@ -98,7 +98,7 @@ const splitIntoMinimumPlayed = (users) => {
  */
 const populateLeaderboard = async () => {
   try {
-    let users = await User.find({}).populate('matches').exec()
+    let users = await User.find({}).exec()
     users = await addWinPercentToUsers(users)
     users = await limitUsersForm(users)
     users = await splitIntoMinimumPlayed(users)

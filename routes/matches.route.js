@@ -18,6 +18,6 @@ router
 
 router
   .route('/delete/:id')
-  .delete(ensureAuth, deleteMatch)
+  .get(ensureAuth, deleteMatch)
 
 export default router

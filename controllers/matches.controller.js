@@ -203,19 +203,14 @@ export const getMatches = (req, res) => {
  * Delete a match using the match ID.
  */
 export const deleteMatch = (req, res) => {
-  console.log("delete")
-
   Match
     .findByIdAndRemove(req.params.id)
     .exec()
     .then(doc => {
       if (!doc) res.status(404).end()
 
-      return res.status(204).end()
+      req.flash('light_msg', 'Match has been deleted.')
+      res.status(204).redirect('/matches/history')
     })
     .catch(err => next(err))
 }
-
-/**
- * TODO: Added stats to players, need to push that data when adding a match so i can loop over it on leaderboard page.
- */
