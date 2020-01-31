@@ -12,11 +12,11 @@
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
-        <th class="heading left-col" scope="col" style="width: 30%;">Player 1</th>
-        <th class="heading center-col" scope="col">PTS</th>
-        <th class="heading center-col" scope="col"></th>
-        <th class="heading center-col" scope="col">PTS</th>
-        <th class="heading right-col" scope="col" style="width: 30%;">Player 2</th>
+        <th class="heading" scope="col">Player 1</th>
+        <th class="heading" scope="col">PTS</th>
+        <th class="heading" scope="col"></th>
+        <th class="heading" scope="col">PTS</th>
+        <th class="heading" scope="col">Player 2</th>
       </tr>
     </thead>
 
@@ -32,11 +32,11 @@
         </script>
 
         <tr>
-          <td class="left-col"><%= match.player1.name %></td>
-          <td class="center-col"><%= match.player1score %></td>
-          <td class="center-col">vs</td>
-          <td class="center-col"><%= match.player2score %></td>
-          <td class="right-col"><%= match.player2.name %></td>
+          <td class=""><%= match.player1.name %></td>
+          <td class=""><%= match.player1score %></td>
+          <td class="">vs</td>
+          <td class=""><%= match.player2score %></td>
+          <td class=""><%= match.player2.name %></td>
         </tr>
       <% }) %>
     </tbody>

@@ -6,18 +6,18 @@ import { numDifference } from '../helpers/utils'
 /**
  * Get a list of the opponents.
  */
-const getOpponentsList = (req) => {
-  return new Promise((resolve, reject) => {
-    User.find({}, (err, users) => {
-      if (err) throw err
+// const getOpponentsList = (req) => {
+//   return new Promise((resolve, reject) => {
+//     User.find({}, (err, users) => {
+//       if (err) throw err
 
-      const filtered = users.filter(user => user.name !== req.user.name)
+//       const filtered = users.filter(user => user.name !== req.user.name)
 
-      resolve(filtered)
-      return
-    })
-  })
-}
+//       resolve(filtered)
+//       return
+//     })
+//   })
+// }
 
 /**
  * Get a list of the opponents.
@@ -60,8 +60,8 @@ export const getNewMatch = (req, res) => {
  * @param {Object} p2 player2
  * @param {Number} p2s player2score
  */
-const updateUserStats = (p1, p1s, p2, p2s, matchId) => {
-  // return new Promise((resolve, reject) => {
+const updateUserStats = async (p1, p1s, p2, p2s, matchId) => {
+  try {
     let winner
     let loser
 
@@ -79,36 +79,44 @@ const updateUserStats = (p1, p1s, p2, p2s, matchId) => {
     loser.diff = loser.points - winner.points
 
     // Update User db
-    User.updateOne({ _id: winner.id }, {
-      $push: { matches: matchId, 'stats.form': 1 },
-      $inc: {
-        'stats.played': 1,
-        'stats.won': 1,
-        'stats.points': 3,
-        'stats.scoreFor': winner.points,
-        'stats.scoreAgainst': loser.points,
-        'stats.scoreDiff': winner.diff
-      }
-    }).exec()
+    User
+      .updateOne({ _id: winner.id }, {
+        $push: { matches: matchId, 'stats.form': 1 },
+        $inc: {
+          'stats.played': 1,
+          'stats.won': 1,
+          'stats.points': 3,
+          'stats.scoreFor': winner.points,
+          'stats.scoreAgainst': loser.points,
+          'stats.scoreDiff': winner.diff
+        }
+      })
+      .exec()
 
-    User.updateOne({ _id: loser.id }, {
-      $push: { matches: matchId, 'stats.form': 0 },
-      $inc: {
-        'stats.played': 1,
-        'stats.lost': 1,
-        'stats.scoreFor': loser.points,
-        'stats.scoreAgainst': winner.points,
-        'stats.scoreDiff': loser.diff
-      }
-    }).exec()
-  // })
+    User
+      .updateOne({ _id: loser.id }, {
+        $push: { matches: matchId, 'stats.form': 0 },
+        $inc: {
+          'stats.played': 1,
+          'stats.lost': 1,
+          'stats.scoreFor': loser.points,
+          'stats.scoreAgainst': winner.points,
+          'stats.scoreDiff': loser.diff
+        }
+      })
+      .exec()
+
+    return
+  } catch (err) {
+    return err
+  }
 }
 
 /**
  * Add a new match.
  */
 export const addNewMatch = (req, res) => {
-  const { player1: p1, player1score: p1s, player2: p2, player2score: p2s } = req.body
+  const { player1: p1, player1score: p1s, player2: p2, player2score: p2s, created_by } = req.body
 
   let errors = []
 
@@ -158,15 +166,17 @@ export const addNewMatch = (req, res) => {
       player1: p1,
       player1score: p1s,
       player2: p2,
-      player2score: p2s
+      player2score: p2s,
+      created_by
     })
-
-    updateUserStats(p1, p1s, p2, p2s, newMatch._id)
 
     newMatch.save()
       .then(() => {
-        req.flash('light_msg', 'New match has been added.')
-        res.redirect('/')
+        updateUserStats(p1, p1s, p2, p2s, newMatch._id)
+          .then(() => {
+            req.flash('light_msg', 'New match has been added.')
+            res.redirect('/')
+          })
       })
       .catch (err => console.error(err))
   }
@@ -187,6 +197,23 @@ export const getMatches = (req, res) => {
         matches
       })
     })
+}
+
+/**
+ * Delete a match using the match ID.
+ */
+export const deleteMatch = (req, res) => {
+  console.log("delete")
+
+  Match
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(doc => {
+      if (!doc) res.status(404).end()
+
+      return res.status(204).end()
+    })
+    .catch(err => next(err))
 }
 
 /**

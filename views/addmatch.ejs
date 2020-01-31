@@ -12,6 +12,8 @@
   <%- include('./partials/messages') -%>
 
   <form action="/matches/new" method="POST">
+    <input type="hidden" value="<%= user.id %>" id="created_by" name="created_by">
+
     <div class="row">
       <div class="input-group mb-3 col-md">
         <div class="input-group-prepend">

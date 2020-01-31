@@ -19,6 +19,11 @@ const MatchSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,
