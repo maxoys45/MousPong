@@ -1,15 +1,15 @@
 <div class="container mt-4">
   <h2>Leaderboard</h2>
 
-  <!-- <p class="lead mb-3">Welcome <%= user.name %></p> -->
+  <p class="lead mb-3 d-none">Welcome <%= user ? user.name : 'Guest' %></p>
 
   <%- include('./partials/messages') -%>
 
-  <a href="/matches/new" class="btn btn-success">Add new match</a>
+  <% if (user) { %><a href="/matches/new" class="btn btn-success">Add new match</a><% } %>
 
   <a href="/matches/history" class="btn btn-primary">View previous matches</a>
 
-  <a href="/users/logout" class="btn btn-secondary">Logout</a>
+  <% if (user) { %><a href="/users/logout" class="btn btn-secondary">Logout</a><% } %>
 </div>
 
 <div class="container mt-4">

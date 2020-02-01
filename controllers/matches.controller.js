@@ -194,6 +194,7 @@ export const getMatches = (req, res) => {
       if (err) throw err
 
       res.render('history', {
+        user: req.user,
         matches
       })
     })

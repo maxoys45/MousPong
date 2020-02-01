@@ -14,7 +14,7 @@ router
 // Previous Matches
 router
   .route('/history')
-  .get(ensureAuth, getMatches)
+  .get(getMatches)
 
 router
   .route('/delete/:id')
