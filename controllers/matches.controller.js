@@ -60,49 +60,69 @@ export const getNewMatch = (req, res) => {
  * @param {Object} p2 player2
  * @param {Number} p2s player2score
  */
-const updateUserStats = async (p1, p1s, p2, p2s, matchId) => {
+// const updateUserStats = async (p1, p1s, p2, p2s, matchId) => {
+//   try {
+//     let winner
+//     let loser
+
+//     // Detemine which player is the winner
+//     if (Number(p1s) > Number(p2s)) {
+//       winner = { id: p1, points: p1s }
+//       loser = { id: p2, points: p2s }
+//     } else {
+//       winner = { id: p2, points: p2s }
+//       loser = { id: p1, points: p1s }
+//     }
+
+//     // Calculate score difference
+//     winner.diff = winner.points - loser.points
+//     loser.diff = loser.points - winner.points
+
+//     // Update User db
+//     User
+//       .updateOne({ _id: winner.id }, {
+//         $push: { matches: matchId, 'stats.form': 1 },
+//         $inc: {
+//           'stats.played': 1,
+//           'stats.won': 1,
+//           'stats.points': 3,
+//           'stats.scoreFor': winner.points,
+//           'stats.scoreAgainst': loser.points,
+//           'stats.scoreDiff': winner.diff
+//         }
+//       })
+//       .exec()
+
+//     User
+//       .updateOne({ _id: loser.id }, {
+//         $push: { matches: matchId, 'stats.form': 0 },
+//         $inc: {
+//           'stats.played': 1,
+//           'stats.lost': 1,
+//           'stats.scoreFor': loser.points,
+//           'stats.scoreAgainst': winner.points,
+//           'stats.scoreDiff': loser.diff
+//         }
+//       })
+//       .exec()
+
+//     return
+//   } catch (err) {
+//     return err
+//   }
+// }
+
+const addMatchesToUsers = async (p1, p2, matchId) => {
   try {
-    let winner
-    let loser
-
-    // Detemine which player is the winner
-    if (Number(p1s) > Number(p2s)) {
-      winner = { id: p1, points: p1s }
-      loser = { id: p2, points: p2s }
-    } else {
-      winner = { id: p2, points: p2s }
-      loser = { id: p1, points: p1s }
-    }
-
-    // Calculate score difference
-    winner.diff = winner.points - loser.points
-    loser.diff = loser.points - winner.points
-
-    // Update User db
     User
-      .updateOne({ _id: winner.id }, {
-        $push: { matches: matchId, 'stats.form': 1 },
-        $inc: {
-          'stats.played': 1,
-          'stats.won': 1,
-          'stats.points': 3,
-          'stats.scoreFor': winner.points,
-          'stats.scoreAgainst': loser.points,
-          'stats.scoreDiff': winner.diff
-        }
+      .findByIdAndUpdate(p1, {
+        $push: { matches: matchId }
       })
       .exec()
 
     User
-      .updateOne({ _id: loser.id }, {
-        $push: { matches: matchId, 'stats.form': 0 },
-        $inc: {
-          'stats.played': 1,
-          'stats.lost': 1,
-          'stats.scoreFor': loser.points,
-          'stats.scoreAgainst': winner.points,
-          'stats.scoreDiff': loser.diff
-        }
+      .findByIdAndUpdate(p2, {
+        $push: { matches: matchId }
       })
       .exec()
 
@@ -116,7 +136,7 @@ const updateUserStats = async (p1, p1s, p2, p2s, matchId) => {
  * Add a new match.
  */
 export const addNewMatch = (req, res) => {
-  const { player1: p1, player1score: p1s, player2: p2, player2score: p2s, created_by } = req.body
+  const { p1, p1s, p2, p2s, created_by } = req.body
 
   let errors = []
 
@@ -155,27 +175,29 @@ export const addNewMatch = (req, res) => {
           user: req.user,
           players,
           errors,
-          player1: p1,
-          player1score: p1s,
-          player2: p2,
-          player2score: p2s
+          p1,
+          p1s,
+          p2,
+          p2s
         })
       })
   } else {
     const newMatch = new Match({
-      player1: p1,
-      player1score: p1s,
-      player2: p2,
-      player2score: p2s,
+      'p1.id': p1,
+      'p1.score': p1s,
+      'p1.winner': Number(p1s) > Number(p2s),
+      'p2.id': p2,
+      'p2.score': p2s,
+      'p2.winner': Number(p2s) > Number(p1s),
       created_by
     })
 
     newMatch.save()
       .then(() => {
-        updateUserStats(p1, p1s, p2, p2s, newMatch._id)
+        addMatchesToUsers(p1, p2, newMatch._id)
           .then(() => {
             req.flash('light_msg', 'New match has been added.')
-            res.redirect('/')
+            res.redirect('/matches/new')
           })
       })
       .catch (err => console.error(err))
@@ -188,8 +210,8 @@ export const addNewMatch = (req, res) => {
 export const getMatches = (req, res) => {
   Match
     .find({}, null, { sort: { date: -1 }})
-    .populate('player1')
-    .populate('player2')
+    .populate('p1.id')
+    .populate('p2.id')
     .exec((err, matches) => {
       if (err) throw err
 
@@ -200,18 +222,48 @@ export const getMatches = (req, res) => {
     })
 }
 
+// const deletePlayerMatchStats = (match) => {
+//   return new Promise((resolve, reject) => {
+
+//   })
+// }
+
+// const deleteMatch = async (req, res) => {
+//   try {
+//     let match = await Match.findById(req.params.id).populate('player1').populate('player2').exec()
+//     match = await deletePlayerMatchStats(match)
+//     users = await limitUsersForm(users)
+//     users = await splitIntoMinimumPlayed(users)
+
+//     return users
+//   } catch (err) {
+//     return err
+//   }
+// }
+
 /**
  * Delete a match using the match ID.
  */
 export const deleteMatch = (req, res) => {
-  Match
-    .findByIdAndRemove(req.params.id)
-    .exec()
-    .then(doc => {
-      if (!doc) res.status(404).end()
 
-      req.flash('light_msg', 'Match has been deleted.')
-      res.status(204).redirect('/matches/history')
-    })
-    .catch(err => next(err))
+  Match
+    .findById(req.params.id)
+      .populate('p1.id')
+      .populate('p2.id')
+      .populate('created_by')
+      .exec((err, match) => {
+        if (err) throw err
+
+        console.log(match)
+      })
+  // Match
+  //   .findByIdAndRemove(req.params.id)
+  //   .exec()
+  //   .then(doc => {
+  //     if (!doc) res.status(404).end()
+
+  //     req.flash('light_msg', 'Match has been deleted.')
+  //     res.status(204).redirect('/matches/history')
+  //   })
+  //   .catch(err => next(err))
 }

@@ -13,8 +13,7 @@ const MatchSchema = new mongoose.Schema({
     },
     winner: {
       type: Boolean,
-      required: true,
-    },
+    }
   },
   p2: {
     id: {
@@ -28,11 +27,7 @@ const MatchSchema = new mongoose.Schema({
     },
     winner: {
       type: Boolean,
-      required: true,
-    },
-  },
-  overtime: {
-    type: Boolean,
+    }
   },
   created_by: {
     type: mongoose.Schema.Types.ObjectId,

@@ -18,8 +18,12 @@ const app = express()
 func(passport)
 
 // Connect to Mongo
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB Connected...'))
+mongoose.connect(db, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+})
+  .then(() => console.log('MongoDB Connected...\n====================\n++++++++++++++++++++\n===================='))
   .catch(err => console.error(err))
 
   // EJS

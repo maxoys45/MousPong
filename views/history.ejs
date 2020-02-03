@@ -5,7 +5,11 @@
 
   <a href="/" class="btn btn-primary">View leaderboard</a>
 
-  <% if (user) { %><a href="/users/logout" class="btn btn-secondary">Logout</a><% } %>
+  <% if (user) { %>
+    <a href="/users/logout" class="btn btn-secondary">Logout</a>
+  <% } else { %>
+    <a href="/users/login" class="btn btn-secondary">Login</a>
+  <% } %>
 </div>
 
 <div class="container mt-4">

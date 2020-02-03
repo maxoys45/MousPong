@@ -20,10 +20,10 @@
           <span class="input-group-text">Player 1</span>
         </div>
 
-        <select class="custom-select" id="player1" name="player1">
+        <select class="custom-select" id="p1" name="p1">
           <option value="">Choose...</option>
           <% players.forEach(player => { %>
-            <option value="<%= player.id %>"<%= (player.id === user.id) ? ' selected' : (typeof player1 != 'undefined' && player1 === player.id) ? ' selected' : '' %>><%= player.name %></option>
+            <option value="<%= player.id %>"<%= (player.id === user.id) ? ' selected' : (typeof p1 != 'undefined' && p1 === player.id) ? ' selected' : '' %>><%= player.name %></option>
           <% }) %>
         </select>
       </div>
@@ -33,20 +33,20 @@
           <span class="input-group-text">Player 1 Score</span>
         </div>
 
-        <input id="player1score" name="player1score" type="number" class="form-control" aria-label="Score" value="<%= typeof player1score != 'undefined' ? player1score : '' %>">
+        <input id="p1s" name="p1s" type="number" class="form-control" aria-label="Score" value="<%= typeof p1s != 'undefined' ? p1s : '' %>">
       </div>
     </div>
 
     <div class="row">
       <div class="input-group mb-3 col-md">
         <div class="input-group-prepend">
-          <label class="input-group-text" for="player2">Player 2</label>
+          <label class="input-group-text" for="p2">Player 2</label>
         </div>
 
-        <select class="custom-select" id="player2" name="player2">
+        <select class="custom-select" id="p2" name="p2">
           <option value="">Choose...</option>
           <% players.forEach(player => { %>
-            <option value="<%= player.id %>"<%= typeof player2 != 'undefined' && player2 === player.id ? ' selected' : '' %>><%= player.name %></option>
+            <option value="<%= player.id %>"<%= typeof p2 != 'undefined' && p2 === player.id ? ' selected' : '' %>><%= player.name %></option>
           <% }) %>
         </select>
       </div>
@@ -56,7 +56,7 @@
           <span class="input-group-text">Player 2 Score</span>
         </div>
 
-        <input id="player2score" name="player2score" type="number" class="form-control" aria-label="Score" value="<%= typeof player2score != 'undefined' ? player2score : '' %>">
+        <input id="p2s" name="p2s" type="number" class="form-control" aria-label="Score" value="<%= typeof p2s != 'undefined' ? p2s : '' %>">
       </div>
     </div>
 
