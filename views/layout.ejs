@@ -14,21 +14,28 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
 
-    @media screen and (max-width: 767px) {
-      .mobile-hide { display: none; }
-    }
-
     .table { table-layout: fixed; }
     .table .unranked { opacity: 0.3; }
-    .table td { vertical-align: middle; padding: 0.65rem 0.75rem; }
+    .table td { vertical-align: middle; padding: 0.5rem; }
     .table .center-col { text-align: center; }
     .table .left-col { text-align: left; }
     .table .right-col { text-align: right; }
 
+    .leaderboard { max-width: 1110px; margin-left: auto; margin-right: auto; }
     .leaderboard__rank[data-rank] { font-size: 1.2em; }
     .leaderboard__rank[data-rank="1"] { color: #C9B037; }
     .leaderboard__rank[data-rank="2"] { color: #B4B4B4; }
     .leaderboard__rank[data-rank="3"] { color: #AD8A56; }
+
+    @media screen and (max-width: 767px) {
+      .mobile-hide { display: none; }
+      .leaderboard-heading__win-percent { width: 20%; }
+    }
+
+    @media screen and (min-width: 768px) {
+      .desktop-hide { display: none; }
+      .table td { padding: 0.65rem 0.75rem; }
+    }
   </style>
 </head>
 <body>

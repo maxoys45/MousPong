@@ -37,11 +37,11 @@
         </script>
 
         <tr>
-          <td class=""><%= match.player1.name %></td>
-          <td class=""><%= match.player1score %></td>
+          <td class=""><%= match.p1.id.name %></td>
+          <td class=""><%= match.p1.score %></td>
           <td class="">vs</td>
-          <td class=""><%= match.player2score %></td>
-          <td class=""><%= match.player2.name %></td>
+          <td class=""><%= match.p2.score %></td>
+          <td class=""><%= match.p2.id.name %></td>
           <td>
             <a href="/matches/delete/<%= match._id %>">Delete</a>
           </td>
