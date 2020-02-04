@@ -21,7 +21,7 @@
         <th class="heading" scope="col"></th>
         <th class="heading" scope="col">PTS</th>
         <th class="heading" scope="col">Player 2</th>
-        <th class="heading" scope="col">Remove?</th>
+      <% if (user) { %><th class="heading" scope="col">Remove?</th><% } %>
       </tr>
     </thead>
 
@@ -42,9 +42,11 @@
           <td class="">vs</td>
           <td class=""><%= match.p2.score %></td>
           <td class=""><%= match.p2.id.name %></td>
-          <td>
-            <a href="/matches/delete/<%= match._id %>">Delete</a>
-          </td>
+          <% if (user && user._id.equals(match.created_by) && match.recent) { %>
+            <td>
+              <a href="/matches/delete/<%= match.id %>">Delete</a>
+            </td>
+          <% } %>
         </tr>
       <% }) %>
     </tbody>

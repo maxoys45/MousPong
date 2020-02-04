@@ -1,7 +1,8 @@
 import { Router } from 'express'
 import { ensureAuth } from '../config/auth'
 
-import { getNewMatch, addNewMatch, getMatches, deleteMatch } from '../controllers/matches.controller'
+import { getNewMatch, addNewMatch } from '../controllers/match.new.controller'
+import { getMatches, deleteMatch } from '../controllers/match.history.controller'
 
 const router = Router()
 

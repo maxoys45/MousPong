@@ -80,7 +80,7 @@ export const getNewMatch = (req, res) => {
 
 //     // Update User db
 //     User
-//       .updateOne({ _id: winner.id }, {
+//       .updateOne({ id: winner.id }, {
 //         $push: { matches: matchId, 'stats.form': 1 },
 //         $inc: {
 //           'stats.played': 1,
@@ -94,7 +94,7 @@ export const getNewMatch = (req, res) => {
 //       .exec()
 
 //     User
-//       .updateOne({ _id: loser.id }, {
+//       .updateOne({ id: loser.id }, {
 //         $push: { matches: matchId, 'stats.form': 0 },
 //         $inc: {
 //           'stats.played': 1,
@@ -112,6 +112,12 @@ export const getNewMatch = (req, res) => {
 //   }
 // }
 
+/**
+ * Add the match to users matches array.
+ * @param {Object} p1 player1
+ * @param {Object} p2 player2
+ * @param {Object} matchId the match ObjectID
+ */
 const addMatchesToUsers = async (p1, p2, matchId) => {
   try {
     User
@@ -194,7 +200,7 @@ export const addNewMatch = (req, res) => {
 
     newMatch.save()
       .then(() => {
-        addMatchesToUsers(p1, p2, newMatch._id)
+        addMatchesToUsers(p1, p2, newMatch.id)
           .then(() => {
             req.flash('light_msg', 'New match has been added.')
             res.redirect('/matches/new')
@@ -202,68 +208,4 @@ export const addNewMatch = (req, res) => {
       })
       .catch (err => console.error(err))
   }
-}
-
-/**
- * Get the match history and render the template.
- */
-export const getMatches = (req, res) => {
-  Match
-    .find({}, null, { sort: { date: -1 }})
-    .populate('p1.id')
-    .populate('p2.id')
-    .exec((err, matches) => {
-      if (err) throw err
-
-      res.render('history', {
-        user: req.user,
-        matches
-      })
-    })
-}
-
-// const deletePlayerMatchStats = (match) => {
-//   return new Promise((resolve, reject) => {
-
-//   })
-// }
-
-// const deleteMatch = async (req, res) => {
-//   try {
-//     let match = await Match.findById(req.params.id).populate('player1').populate('player2').exec()
-//     match = await deletePlayerMatchStats(match)
-//     users = await limitUsersForm(users)
-//     users = await splitIntoMinimumPlayed(users)
-
-//     return users
-//   } catch (err) {
-//     return err
-//   }
-// }
-
-/**
- * Delete a match using the match ID.
- */
-export const deleteMatch = (req, res) => {
-
-  Match
-    .findById(req.params.id)
-      .populate('p1.id')
-      .populate('p2.id')
-      .populate('created_by')
-      .exec((err, match) => {
-        if (err) throw err
-
-        console.log(match)
-      })
-  // Match
-  //   .findByIdAndRemove(req.params.id)
-  //   .exec()
-  //   .then(doc => {
-  //     if (!doc) res.status(404).end()
-
-  //     req.flash('light_msg', 'Match has been deleted.')
-  //     res.status(204).redirect('/matches/history')
-  //   })
-  //   .catch(err => next(err))
 }
