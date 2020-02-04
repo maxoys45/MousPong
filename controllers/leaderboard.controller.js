@@ -1,10 +1,12 @@
 import { User } from '../models/user.model'
 
+import { roundNumberTwoDecimals } from '../helpers/utils'
+
 /**
  * Take the users matches played and how many they've won to work out their win percentage.
  * @param {Array} users the returned users array
  */
-const addWinPercentToUsers = (users) => {
+const addWinPercentToUsersAndSort = (users) => {
   return new Promise(resolve => {
     const usersWithPercentArr = []
 
@@ -12,10 +14,10 @@ const addWinPercentToUsers = (users) => {
       const { won, played } = user.stats
 
       // If user has no wins/played then return 0
-      const percent = won / played * 100 || 0
+      const percent = (won / played) * 100 || 0
 
       // Round numbers properly eg. 1.005
-      user.stats.winningPercent = Math.round((percent + Number.EPSILON) * 100) / 100
+      user.stats.winningPercent = roundNumberTwoDecimals(percent)
 
       usersWithPercentArr.push(user)
     })
@@ -99,7 +101,7 @@ const splitIntoMinimumPlayed = (users) => {
 // const populateLeaderboard = async () => {
 //   try {
 //     let users = await User.find({}).exec()
-//     users = await addWinPercentToUsers(users)
+//     users = await addWinPercentToUsersAndSort(users)
 //     users = await limitUsersForm(users)
 //     users = await splitIntoMinimumPlayed(users)
 
@@ -147,10 +149,17 @@ const addStatsToUsers = (users) => {
       }
 
       user.matches.forEach(match => {
-        const thisPlayer = (user._id === match.p1.id) ? 'p1' : 'p2'
-        const otherPlayer = (user._id === match.p2.id) ? 'p2' : 'p1'
+        let thisPlayer
+        let otherPlayer
 
-        console.log(`thisPlayer=${thisPlayer}, otherPlayer=${otherPlayer}`)
+        if (user._id.equals(match.p1.id)) {
+          thisPlayer = 'p1'
+          otherPlayer = 'p2'
+        } else {
+          thisPlayer = 'p2'
+          otherPlayer = 'p1'
+        }
+
         stats.played++
         stats.scoreFor += match[thisPlayer].score
         stats.scoreAgainst += match[otherPlayer].score
@@ -166,23 +175,10 @@ const addStatsToUsers = (users) => {
         }
       })
 
-      // =========================
-      // Some progress: getting properties now but for some reason, it thinks 'thisPlayer' is Matt both times.
-      // =========================
-
-
       user.stats = stats
 
       updatedUsers.push(user)
     })
-
-    console.log(updatedUsers[0])
-
-
-    // console.log('updatedUsers', updatedUsers[0])
-
-    // console.log('==================================')
-    // console.log(updatedUsers[0])
 
     resolve(updatedUsers)
   })
@@ -199,6 +195,9 @@ const populateLeaderboard = async () => {
       .exec()
 
     users = await addStatsToUsers(users)
+    users = await addWinPercentToUsersAndSort(users)
+    users = await limitUsersForm(users)
+    users = await splitIntoMinimumPlayed(users)
 
     return users
   } catch (err) {
@@ -211,10 +210,10 @@ const populateLeaderboard = async () => {
  */
 export const getLeaderboard = (req, res) => {
   populateLeaderboard()
-    // .then(standings => {
-    //   res.render('leaderboard', {
-    //     user: req.user,
-    //     standings
-    //   })
-    // })
+    .then(standings => {
+      res.render('leaderboard', {
+        user: req.user,
+        standings
+      })
+    })
 }
