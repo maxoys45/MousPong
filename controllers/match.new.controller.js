@@ -203,7 +203,7 @@ export const addNewMatch = (req, res) => {
         addMatchesToUsers(p1, p2, newMatch.id)
           .then(() => {
             req.flash('light_msg', 'New match has been added.')
-            res.redirect('/matches/new')
+            res.redirect('/')
           })
       })
       .catch (err => console.error(err))

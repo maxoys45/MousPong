@@ -5,7 +5,9 @@
 
   <%- include('./partials/messages') -%>
 
-  <% if (user) { %><a href="/matches/new" class="btn btn-success">Add new match</a><% } %>
+  <% if (user) { %>
+    <a href="/matches/new" class="btn btn-success">Add new match</a>
+  <% } %>
 
   <a href="/matches/history" class="btn btn-primary">View previous matches</a>
 
@@ -45,8 +47,10 @@
               #<%= (index + 1) %>
             <% } %>
           </td>
-          <td class="leaderboard__player mobile-hide"><%= player.name %></td>
-          <td class="leaderboard__player desktop-hide"><%= player_initials %></td>
+          <td class="leaderboard__player">
+            <span class="mobile-hide"><%= player.name %></span>
+            <span class="desktop-hide"><%= player.shortName %></span>
+          </td>
           <td class="center-col leaderboard__games-played mobile-hide"><%= player.stats.played %></td>
           <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
           <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>
@@ -67,8 +71,10 @@
 
         <tr class="unranked">
           <td class="center-col leaderboard__rank">-</td>
-          <td class="leaderboard__player mobile-hide"><%= player.name %></td>
-          <td class="leaderboard__player desktop-hide"><%= player_initials %></td>
+          <td class="leaderboard__player">
+            <span class="mobile-hide"><%= player.name %></span>
+            <span class="desktop-hide"><%= player.shortName %></span>
+          </td>
           <td class="center-col leaderboard__games-played mobile-hide"><%= player.stats.played %></td>
           <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
           <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>

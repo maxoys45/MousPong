@@ -3,6 +3,73 @@ import { User } from '../models/user.model'
 import { roundNumberTwoDecimals } from '../helpers/utils'
 
 /**
+ * Calculate the match stats based on the used being looped over
+ * & the match in question.
+ * @param {Object} user
+ * @param {Object} match
+ * @param {Object} stats
+ */
+const calculateMatchStats = (user, match, stats) => {
+  let thisPlayer
+  let otherPlayer
+
+  if (user._id.equals(match.p1.id)) {
+    thisPlayer = 'p1'
+    otherPlayer = 'p2'
+  } else {
+    thisPlayer = 'p2'
+    otherPlayer = 'p1'
+  }
+
+  stats.played++
+  stats.scoreFor += match[thisPlayer].score
+  stats.scoreAgainst += match[otherPlayer].score
+  stats.scoreDiff += (match[thisPlayer].score - match[otherPlayer].score)
+  stats.points += (match[thisPlayer].winner ? 3 : 0)
+
+  if (match[thisPlayer].winner) {
+    stats.won += 1
+    stats.form.push(1)
+  } else {
+    stats.lost += 1
+    stats.form.push(0)
+  }
+}
+
+/**
+ * Add users stats to each user by looking through their previous matches.
+ * @param {Array} users
+ */
+const addStatsToUsers = (users) => {
+  return new Promise(resolve => {
+    const updatedUsers = []
+
+    users.forEach(user => {
+      let stats = {
+        played: 0,
+        won: 0,
+        lost: 0,
+        scoreFor: 0,
+        scoreAgainst: 0,
+        scoreDiff: 0,
+        points: 0,
+        form: []
+      }
+
+      user.matches.forEach(match => {
+        calculateMatchStats(user, match, stats)
+      })
+
+      user.stats = stats
+
+      updatedUsers.push(user)
+    })
+
+    resolve(updatedUsers)
+  })
+}
+
+/**
  * Take the users matches played and how many they've won to work out their win percentage.
  * @param {Array} users the returned users array
  */
@@ -52,6 +119,26 @@ const addWinPercentToUsersAndSort = (users) => {
 }
 
 /**
+ * Add shortened version of name to each user for use on small screens.
+ * @param {Array} users
+ */
+const formatShortNames = (users) => {
+  return new Promise(resolve => {
+    const usersWithShortNames = []
+
+    users.forEach(user => {
+      const nameSplit = user.name.split(' ')
+
+      user.shortName = `${nameSplit[0]} ${nameSplit[1][0]}`
+
+      usersWithShortNames.push(user)
+    })
+
+    resolve(usersWithShortNames)
+  })
+}
+
+/**
  * Take each users form array and limit to the last 5 entries.
  * @param {Array} users the users array with winning percentage property.
  */
@@ -95,95 +182,6 @@ const splitIntoMinimumPlayed = (users) => {
   })
 }
 
-/**
- * Get all the users and return them in winning percentage order.
- */
-// const populateLeaderboard = async () => {
-//   try {
-//     let users = await User.find({}).exec()
-//     users = await addWinPercentToUsersAndSort(users)
-//     users = await limitUsersForm(users)
-//     users = await splitIntoMinimumPlayed(users)
-
-//     return users
-//   } catch (err) {
-//     return err
-//   }
-// }
-
-const calculateMatchStats = (user, match, stats) => {
-  let thisPlayer = (user._id === match.p1.id) ? 'p1' : 'p2'
-  let otherPlayer = (user._id === match.p2.id) ? 'p2' : 'p1'
-
-  stats.played++
-  stats.scoreFor += match[thisPlayer].score
-  stats.scoreAgainst += match[otherPlayer].score
-  stats.scoreDiff += (match[thisPlayer].score - match[otherPlayer].score)
-  stats.points += (match[thisPlayer].winner ? 3 : 0)
-
-  if (match[thisPlayer].winner) {
-    stats.won += 1
-    stats.form.push(1)
-  } else {
-    stats.lost += 1
-    stats.form.push(0)
-  }
-
-  return stats
-}
-
-const addStatsToUsers = (users) => {
-  return new Promise(resolve => {
-    const updatedUsers = []
-
-    users.forEach(user => {
-      const stats = {
-        played: 0,
-        won: 0,
-        lost: 0,
-        scoreFor: 0,
-        scoreAgainst: 0,
-        scoreDiff: 0,
-        points: 0,
-        form: []
-      }
-
-      user.matches.forEach(match => {
-        let thisPlayer
-        let otherPlayer
-
-        if (user._id.equals(match.p1.id)) {
-          thisPlayer = 'p1'
-          otherPlayer = 'p2'
-        } else {
-          thisPlayer = 'p2'
-          otherPlayer = 'p1'
-        }
-
-        stats.played++
-        stats.scoreFor += match[thisPlayer].score
-        stats.scoreAgainst += match[otherPlayer].score
-        stats.scoreDiff += (match[thisPlayer].score - match[otherPlayer].score)
-        stats.points += (match[thisPlayer].winner ? 3 : 0)
-
-        if (match[thisPlayer].winner) {
-          stats.won += 1
-          stats.form.push(1)
-        } else {
-          stats.lost += 1
-          stats.form.push(0)
-        }
-      })
-
-      user.stats = stats
-
-      updatedUsers.push(user)
-    })
-
-    resolve(updatedUsers)
-  })
-}
-
 const populateLeaderboard = async () => {
   try {
     let users = await User
@@ -196,6 +194,7 @@ const populateLeaderboard = async () => {
 
     users = await addStatsToUsers(users)
     users = await addWinPercentToUsersAndSort(users)
+    users = await formatShortNames(users)
     users = await limitUsersForm(users)
     users = await splitIntoMinimumPlayed(users)
 

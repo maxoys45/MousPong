@@ -1,7 +1,9 @@
 <div class="container mt-4">
   <h2>Previous games</h2>
 
-  <% if (user) { %><a href="/matches/new" class="btn btn-success">Add new match</a><% } %>
+  <% if (user) { %>
+    <a href="/matches/new" class="btn btn-success">Add new match</a>
+  <% } %>
 
   <a href="/" class="btn btn-primary">View leaderboard</a>
 
@@ -17,21 +19,19 @@
     <thead class="thead-dark">
       <tr>
         <th class="heading" scope="col">Date</th>
-        <th class="heading" scope="col">P1</th>
+        <th class="heading" scope="col">Player 1</th>
         <th class="heading" scope="col">Score</th>
-        <th class="heading" scope="col">P2</th>
+        <th class="heading" scope="col">Player 2</th>
       </tr>
     </thead>
 
     <tbody>
       <% matches.forEach(match => { %>
-        <% var p1name = match.p1.id.name %>
-        <% var player1_initials = p1name.match(/\b\w/g) || [] %>
-        <% player1_initials = ((player1_initials.shift() || '') + (player1_initials.pop() || '')).toUpperCase() %>
+        <% var player1_split = match.p1.id.name.split(' ') %>
+        <% var player1_short = `${player1_split[0]} ${player1_split[1][0]}` %>
 
-        <% var p2name = match.p2.id.name %>
-        <% var player2_initials = p2name.match(/\b\w/g) || [] %>
-        <% player2_initials = ((player2_initials.shift() || '') + (player2_initials.pop() || '')).toUpperCase() %>
+        <% var player2_split = match.p2.id.name.split(' ') %>
+        <% var player2_short = `${player2_split[0]} ${player2_split[1][0]}` %>
 
         <tr>
           <td class="history__col">
@@ -40,12 +40,12 @@
           </td>
           <td class="history__col">
             <span class="mobile-hide"><%= match.p1.id.name %></span>
-            <span class="desktop-hide"><%= player1_initials %></span>
+            <span class="desktop-hide"><%= player1_short %></span>
           </td>
           <td class="history__col"><%= match.p1.score %> : <%= match.p2.score %></td>
           <td class="history__col history__col--name">
             <span class="mobile-hide"><%= match.p2.id.name %></span>
-            <span class="desktop-hide"><%= player2_initials %></span>
+            <span class="desktop-hide"><%= player2_short %></span>
 
             <% if (user && user._id.equals(match.created_by) && match.recent) { %>
               <a class="remove-match" href="/matches/delete/<%= match._id %>">

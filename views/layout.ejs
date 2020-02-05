@@ -16,7 +16,7 @@
 
     .table { table-layout: fixed; }
     .table .unranked { opacity: 0.3; }
-    .table td { vertical-align: middle; padding: 0.5rem; }
+    .table td, .table th { vertical-align: middle; padding: 0.5rem; }
     .table .center-col { text-align: center; }
     .table .left-col { text-align: left; }
     .table .right-col { text-align: right; }
@@ -47,12 +47,13 @@
       transform: translate(-50%, -50%);
     }
 
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 767px) and (orientation: portrait) {
+      .table td, .table th { font-size: .8em; }
       .mobile-hide { display: none; }
       .leaderboard-heading__win-percent { width: 20%; }
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 768px), (orientation: landscape) {
       .desktop-hide { display: none; }
       .table td { padding: 0.65rem 0.75rem; }
     }
