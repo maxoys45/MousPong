@@ -1,4 +1,21 @@
+import moment from 'moment'
+
 import { Match } from '../models/match.model'
+
+const addFormattedDateToMatch = (matches) => {
+  return new Promise(resolve => {
+    const matchesWithDates = []
+
+    matches.forEach(match => {
+      match.formattedDate = moment(match.date).format('LL')
+      match.shortDate = moment(match.date).format('DD/MM')
+
+      matchesWithDates.push(match)
+    })
+
+    resolve(matchesWithDates)
+  })
+}
 
 /**
  * Check whether the match happened in the last 12 hours.
@@ -33,6 +50,7 @@ const populateMatches = async () => {
       .exec()
 
     matches = await addRecentMatchDate(matches)
+    matches = await addFormattedDateToMatch(matches)
 
     return matches
   } catch(err) {

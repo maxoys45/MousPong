@@ -12,41 +12,47 @@
   <% } %>
 </div>
 
-<div class="container mt-4">
+<div class="history mt-4">
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
-        <th class="heading" scope="col">Player 1</th>
-        <th class="heading" scope="col">PTS</th>
-        <th class="heading" scope="col"></th>
-        <th class="heading" scope="col">PTS</th>
-        <th class="heading" scope="col">Player 2</th>
-      <% if (user) { %><th class="heading" scope="col">Remove?</th><% } %>
+        <th class="heading" scope="col">Date</th>
+        <th class="heading" scope="col">P1</th>
+        <th class="heading" scope="col">Score</th>
+        <th class="heading" scope="col">P2</th>
       </tr>
     </thead>
 
     <tbody>
       <% matches.forEach(match => { %>
-        <script>
-          var date = new Date('<%= match.date %>')
-          var d = date.getDate()
-          var m = date.getMonth() + 1
-          var y = date.getFullYear()
+        <% var p1name = match.p1.id.name %>
+        <% var player1_initials = p1name.match(/\b\w/g) || [] %>
+        <% player1_initials = ((player1_initials.shift() || '') + (player1_initials.pop() || '')).toUpperCase() %>
 
-          console.log(`d:${d}, m:${m}, y:${y}`)
-        </script>
+        <% var p2name = match.p2.id.name %>
+        <% var player2_initials = p2name.match(/\b\w/g) || [] %>
+        <% player2_initials = ((player2_initials.shift() || '') + (player2_initials.pop() || '')).toUpperCase() %>
 
         <tr>
-          <td class=""><%= match.p1.id.name %></td>
-          <td class=""><%= match.p1.score %></td>
-          <td class="">vs</td>
-          <td class=""><%= match.p2.score %></td>
-          <td class=""><%= match.p2.id.name %></td>
-          <% if (user && user._id.equals(match.created_by) && match.recent) { %>
-            <td>
-              <a href="/matches/delete/<%= match.id %>">Delete</a>
-            </td>
-          <% } %>
+          <td class="history__col">
+            <span class="mobile-hide"><%= match.formattedDate %></span>
+            <span class="desktop-hide"><%= match.shortDate %></span>
+          </td>
+          <td class="history__col">
+            <span class="mobile-hide"><%= match.p1.id.name %></span>
+            <span class="desktop-hide"><%= player1_initials %></span>
+          </td>
+          <td class="history__col"><%= match.p1.score %> : <%= match.p2.score %></td>
+          <td class="history__col history__col--name">
+            <span class="mobile-hide"><%= match.p2.id.name %></span>
+            <span class="desktop-hide"><%= player2_initials %></span>
+
+            <% if (user && user._id.equals(match.created_by) && match.recent) { %>
+              <a class="remove-match" href="/matches/delete/<%= match._id %>">
+                <i class="fas fa-times"></i>
+              </a>
+            <% } %>
+          </td>
         </tr>
       <% }) %>
     </tbody>
