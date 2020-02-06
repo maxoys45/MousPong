@@ -33,7 +33,15 @@
           <span class="input-group-text">Player 1 Score</span>
         </div>
 
-        <input id="player1score" name="player1score" type="number" class="form-control" aria-label="Score" value="<%= typeof player1score != 'undefined' ? player1score : '' %>">
+        <input
+          class="form-control"
+          id="player1score"
+          aria-label="Score"
+          name="player1score"
+          pattern="[0-9]*"
+          type="text"
+          value="<%= typeof player1score != 'undefined' ? player1score : '' %>"
+        >
       </div>
     </div>
 
@@ -56,7 +64,15 @@
           <span class="input-group-text">Player 2 Score</span>
         </div>
 
-        <input id="player2score" name="player2score" type="number" class="form-control" aria-label="Score" value="<%= typeof player2score != 'undefined' ? player2score : '' %>">
+        <input
+          class="form-control"
+          id="player2score"
+          aria-label="Score"
+          name="player2score"
+          pattern="[0-9]*"
+          type="text"
+          value="<%= typeof player2score != 'undefined' ? player2score : '' %>"
+        >
       </div>
     </div>
 
