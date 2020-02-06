@@ -27,12 +27,6 @@
 
     <tbody>
       <% matches.forEach(match => { %>
-        <% var player1_split = match.p1.id.name.split(' ') %>
-        <% var player1_short = `${player1_split[0]} ${player1_split[1][0]}` %>
-
-        <% var player2_split = match.p2.id.name.split(' ') %>
-        <% var player2_short = `${player2_split[0]} ${player2_split[1][0]}` %>
-
         <tr>
           <td class="history__col">
             <span class="mobile-hide"><%= match.formattedDate %></span>
@@ -40,12 +34,12 @@
           </td>
           <td class="history__col">
             <span class="mobile-hide"><%= match.p1.id.name %></span>
-            <span class="desktop-hide"><%= player1_short %></span>
+            <span class="desktop-hide"><%= match.p1.id.shortName %></span>
           </td>
           <td class="history__col"><%= match.p1.score %> : <%= match.p2.score %></td>
           <td class="history__col history__col--name">
             <span class="mobile-hide"><%= match.p2.id.name %></span>
-            <span class="desktop-hide"><%= player2_short %></span>
+            <span class="desktop-hide"><%= match.p2.id.shortName %></span>
 
             <% if (user && user._id.equals(match.created_by) && match.recent) { %>
               <a class="remove-match" href="/matches/delete/<%= match._id %>">

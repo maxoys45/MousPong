@@ -37,6 +37,23 @@ const addRecentMatchDate = (matches) => {
   })
 }
 
+const addShortNamesToMatchPlayers = (matches) => {
+  return new Promise(resolve => {
+    const shortNamesOnMatchPlayers = []
+
+    matches.forEach(match => {
+      const p1_split = match.p1.id.name.split(' ')
+      const p2_split = match.p2.id.name.split(' ')
+
+      match.p1.id.shortName = `${p1_split[0]} ${p1_split[1][0]}`
+      match.p2.id.shortName = `${p2_split[0]} ${p2_split[1][0]}`
+
+      shortNamesOnMatchPlayers.push(match)
+    })
+
+    resolve(shortNamesOnMatchPlayers)
+  })
+}
 /**
  * Populate match history.
  */
@@ -51,6 +68,7 @@ const populateMatches = async () => {
 
     matches = await addRecentMatchDate(matches)
     matches = await addFormattedDateToMatch(matches)
+    matches = await addShortNamesToMatchPlayers(matches)
 
     return matches
   } catch(err) {
