@@ -20,10 +20,10 @@
           <span class="input-group-text">Player 1</span>
         </div>
 
-        <select class="custom-select" id="player1" name="player1">
+        <select class="custom-select" id="p1" name="p1">
           <option value="">Choose...</option>
           <% players.forEach(player => { %>
-            <option value="<%= player.id %>"<%= (player.id === user.id) ? ' selected' : (typeof player1 != 'undefined' && player1 === player.id) ? ' selected' : '' %>><%= player.name %></option>
+            <option value="<%= player.id %>"<%= (player.id === user.id) ? ' selected' : (typeof p1 != 'undefined' && p1 === player.id) ? ' selected' : '' %>><%= player.name %></option>
           <% }) %>
         </select>
       </div>
@@ -35,12 +35,12 @@
 
         <input
           class="form-control"
-          id="player1score"
+          id="p1s"
           aria-label="Score"
-          name="player1score"
+          name="p1s"
           pattern="[0-9]*"
           type="text"
-          value="<%= typeof player1score != 'undefined' ? player1score : '' %>"
+          value="<%= typeof p1s != 'undefined' ? p1s : '' %>"
         >
       </div>
     </div>
@@ -48,13 +48,13 @@
     <div class="row">
       <div class="input-group mb-3 col-md">
         <div class="input-group-prepend">
-          <label class="input-group-text" for="player2">Player 2</label>
+          <label class="input-group-text" for="p2">Player 2</label>
         </div>
 
-        <select class="custom-select" id="player2" name="player2">
+        <select class="custom-select" id="p2" name="p2">
           <option value="">Choose...</option>
           <% players.forEach(player => { %>
-            <option value="<%= player.id %>"<%= typeof player2 != 'undefined' && player2 === player.id ? ' selected' : '' %>><%= player.name %></option>
+            <option value="<%= player.id %>"<%= typeof p2 != 'undefined' && p2 === player.id ? ' selected' : '' %>><%= player.name %></option>
           <% }) %>
         </select>
       </div>
@@ -66,12 +66,12 @@
 
         <input
           class="form-control"
-          id="player2score"
+          id="p2s"
           aria-label="Score"
-          name="player2score"
+          name="p2s"
           pattern="[0-9]*"
           type="text"
-          value="<%= typeof player2score != 'undefined' ? player2score : '' %>"
+          value="<%= typeof p2s != 'undefined' ? p2s : '' %>"
         >
       </div>
     </div>

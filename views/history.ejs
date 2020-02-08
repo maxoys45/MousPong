@@ -1,42 +1,52 @@
 <div class="container mt-4">
   <h2>Previous games</h2>
 
-  <a href="/matches/new" class="btn btn-success">Add new match</a>
+  <% if (user) { %>
+    <a href="/matches/new" class="btn btn-success">Add new match</a>
+  <% } %>
 
   <a href="/" class="btn btn-primary">View leaderboard</a>
 
-  <a href="/users/logout" class="btn btn-secondary">Logout</a>
+  <% if (user) { %>
+    <a href="/users/logout" class="btn btn-secondary">Logout</a>
+  <% } else { %>
+    <a href="/users/login" class="btn btn-secondary">Login</a>
+  <% } %>
 </div>
 
-<div class="container mt-4">
+<div class="history mt-4">
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
+        <th class="heading" scope="col">Date</th>
         <th class="heading" scope="col">Player 1</th>
-        <th class="heading" scope="col">PTS</th>
-        <th class="heading" scope="col"></th>
-        <th class="heading" scope="col">PTS</th>
+        <th class="heading" scope="col">Score</th>
         <th class="heading" scope="col">Player 2</th>
       </tr>
     </thead>
 
     <tbody>
       <% matches.forEach(match => { %>
-        <script>
-          var date = new Date('<%= match.date %>')
-          var d = date.getDate()
-          var m = date.getMonth() + 1
-          var y = date.getFullYear()
-
-          console.log(`d:${d}, m:${m}, y:${y}`)
-        </script>
-
         <tr>
-          <td class=""><%= match.player1.name %></td>
-          <td class=""><%= match.player1score %></td>
-          <td class="">vs</td>
-          <td class=""><%= match.player2score %></td>
-          <td class=""><%= match.player2.name %></td>
+          <td class="history__col">
+            <span class="mobile-hide"><%= match.formattedDate %></span>
+            <span class="desktop-hide"><%= match.shortDate %></span>
+          </td>
+          <td class="history__col">
+            <span class="mobile-hide"><%= match.p1.id.name %></span>
+            <span class="desktop-hide"><%= match.p1.id.shortName %></span>
+          </td>
+          <td class="history__col"><%= match.p1.score %> : <%= match.p2.score %></td>
+          <td class="history__col history__col--name">
+            <span class="mobile-hide"><%= match.p2.id.name %></span>
+            <span class="desktop-hide"><%= match.p2.id.shortName %></span>
+
+            <!-- <% if (user && user._id.equals(match.created_by) && match.recent) { %>
+              <a class="remove-match" href="/matches/delete/<%= match._id %>">
+                <i class="fas fa-times"></i>
+              </a>
+            <% } %> -->
+          </td>
         </tr>
       <% }) %>
     </tbody>

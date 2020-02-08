@@ -14,21 +14,49 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
 
-    @media screen and (max-width: 767px) {
-      .mobile-hide { display: none; }
-    }
-
     .table { table-layout: fixed; }
     .table .unranked { opacity: 0.3; }
-    .table td { vertical-align: middle; padding: 0.65rem 0.75rem; }
+    .table td, .table th { vertical-align: middle; padding: 0.5rem; }
     .table .center-col { text-align: center; }
     .table .left-col { text-align: left; }
     .table .right-col { text-align: right; }
 
+    .leaderboard, .history { max-width: 1110px; margin-left: auto; margin-right: auto; }
     .leaderboard__rank[data-rank] { font-size: 1.2em; }
     .leaderboard__rank[data-rank="1"] { color: #C9B037; }
     .leaderboard__rank[data-rank="2"] { color: #B4B4B4; }
     .leaderboard__rank[data-rank="3"] { color: #AD8A56; }
+
+    .table .history__col { position: relative; }
+    .table .history__col--name { padding-right: 2.75rem; }
+    .table .history__col .remove-match {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 2rem;
+      color: white;
+      background-color: #E74C3C;
+    }
+    .table .history__col .remove-match:hover { background-color: #ea6253; }
+    .table .history__col .remove-match i {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @media screen and (max-width: 767px) and (orientation: portrait) {
+      .table td, .table th { font-size: .8em; }
+      .mobile-hide { display: none; }
+      .leaderboard-heading__win-percent { width: 20%; }
+    }
+
+    @media screen and (min-width: 768px), (orientation: landscape) {
+      .desktop-hide { display: none; }
+      .table td, .table th { padding: 0.65rem 0.75rem; }
+    }
   </style>
 </head>
 <body>

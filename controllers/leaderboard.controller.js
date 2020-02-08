@@ -1,8 +1,77 @@
 import { User } from '../models/user.model'
 
+import { roundNumberTwoDecimals } from '../helpers/utils'
+
+/**
+ * Calculate the match stats based on the used being looped over
+ * & the match in question.
+ * @param {Object} user
+ * @param {Object} match
+ * @param {Object} stats
+ */
+const calculateMatchStats = (user, match, stats) => {
+  let thisPlayer
+  let otherPlayer
+
+  if (user._id.equals(match.p1.id)) {
+    thisPlayer = 'p1'
+    otherPlayer = 'p2'
+  } else {
+    thisPlayer = 'p2'
+    otherPlayer = 'p1'
+  }
+
+  stats.played++
+  stats.scoreFor += match[thisPlayer].score
+  stats.scoreAgainst += match[otherPlayer].score
+  stats.scoreDiff += (match[thisPlayer].score - match[otherPlayer].score)
+  stats.points += (match[thisPlayer].winner ? 3 : 0)
+
+  if (match[thisPlayer].winner) {
+    stats.won += 1
+    stats.form.push(1)
+  } else {
+    stats.lost += 1
+    stats.form.push(0)
+  }
+}
+
+/**
+ * Add users stats to each user by looking through their previous matches.
+ * @param {Array} users
+ */
+const addStatsToUsers = (users) => {
+  return new Promise(resolve => {
+    const updatedUsers = []
+
+    users.forEach(user => {
+      let stats = {
+        played: 0,
+        won: 0,
+        lost: 0,
+        scoreFor: 0,
+        scoreAgainst: 0,
+        scoreDiff: 0,
+        points: 0,
+        form: []
+      }
+
+      user.matches.forEach(match => {
+        calculateMatchStats(user, match, stats)
+      })
+
+      user.stats = stats
+
+      updatedUsers.push(user)
+    })
+
+    resolve(updatedUsers)
+  })
+}
+
 /**
  * Take the users matches played and how many they've won to work out their win percentage.
- * @param {Array} users the returned users array
+ * @param {Array} users
  */
 const addWinPercentToUsers = (users) => {
   return new Promise(resolve => {
@@ -12,27 +81,36 @@ const addWinPercentToUsers = (users) => {
       const { won, played } = user.stats
 
       // If user has no wins/played then return 0
-      const percent = won / played * 100 || 0
+      const percent = (won / played) * 100 || 0
 
       // Round numbers properly eg. 1.005
-      user.stats.winningPercent = Math.round((percent + Number.EPSILON) * 100) / 100
+      user.stats.winningPercent = roundNumberTwoDecimals(percent)
 
       usersWithPercentArr.push(user)
     })
 
-    // Sort based on winning percentage,
-    // If win percent is the same, goto score difference
-    usersWithPercentArr.sort((a, b) => {
-      let winPercentA = parseFloat(a.stats.winningPercent)
-      let winPercentB = parseFloat(b.stats.winningPercent)
+    resolve(usersWithPercentArr)
+  })
+}
+
+/**
+ * Sort by Elo points.
+ * If users have the same numbers of points, goto score difference
+ * @param {Array} users
+ */
+const sortUsersByElo = (users) => {
+  return new Promise(resolve => {
+    users.sort((a, b) => {
+      let EloA = a.elo.current
+      let EloB = b.elo.current
       let scoreDiffA = parseFloat(a.stats.scoreDiff)
       let scoreDiffB = parseFloat(b.stats.scoreDiff)
 
-      if (winPercentA < winPercentB) {
+      if (EloA < EloB) {
         return 1
-      } else if (winPercentA > winPercentB) {
+      } else if (EloA > EloB) {
         return -1
-      } else if (winPercentA === winPercentB) {
+      } else if (EloA === EloB) {
         if (scoreDiffA < scoreDiffB) {
           return 1
         } else if (scoreDiffA > scoreDiffB) {
@@ -43,9 +121,27 @@ const addWinPercentToUsers = (users) => {
       return 0
     })
 
-    resolve(usersWithPercentArr)
+    resolve(users)
+  })
+}
 
-    return
+/**
+ * Add shortened version of name to each user for use on small screens.
+ * @param {Array} users
+ */
+const formatShortNames = (users) => {
+  return new Promise(resolve => {
+    const usersWithShortNames = []
+
+    users.forEach(user => {
+      const nameSplit = user.name.split(' ')
+
+      user.shortName = `${nameSplit[0]} ${nameSplit[1][0]}`
+
+      usersWithShortNames.push(user)
+    })
+
+    resolve(usersWithShortNames)
   })
 }
 
@@ -93,18 +189,25 @@ const splitIntoMinimumPlayed = (users) => {
   })
 }
 
-/**
- * Get all the users and return them in winning percentage order.
- */
 const populateLeaderboard = async () => {
   try {
-    let users = await User.find({}).populate('matches').exec()
+    let users = await User
+      .find()
+      .populate({
+        path: 'matches',
+      })
+      .lean()
+      .exec()
+
+    users = await addStatsToUsers(users)
     users = await addWinPercentToUsers(users)
+    users = await sortUsersByElo(users)
+    users = await formatShortNames(users)
     users = await limitUsersForm(users)
     users = await splitIntoMinimumPlayed(users)
 
     return users
-  } catch (err) {
+  } catch(err) {
     return err
   }
 }

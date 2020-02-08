@@ -17,39 +17,15 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  stats: {
-    played: {
+  elo: {
+    current: {
       type: Number,
-      default: 0,
+      default: 1000,
     },
-    won: {
+    previous: {
       type: Number,
-      default: 0,
+      default: 1000,
     },
-    lost: {
-      type: Number,
-      default: 0,
-    },
-    scoreFor: {
-      type: Number,
-      default: 0
-    },
-    scoreAgainst: {
-      type: Number,
-      default: 0
-    },
-    scoreDiff: {
-      type: Number,
-      default: 0
-    },
-    points: {
-      type: Number,
-      default: 0,
-    },
-    winningPercent: {
-      type: Number
-    },
-    form: [ Number ]
   },
   matches: [
     {

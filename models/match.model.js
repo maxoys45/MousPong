@@ -1,23 +1,33 @@
 import mongoose from 'mongoose'
 
 const MatchSchema = new mongoose.Schema({
-  player1: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+  p1: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    score: {
+      type: Number,
+      required: true,
+    },
+    winner: {
+      type: Boolean,
+    }
   },
-  player1score: {
-    type: Number,
-    required: true,
-  },
-  player2: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  player2score: {
-    type: Number,
-    required: true,
+  p2: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    score: {
+      type: Number,
+      required: true,
+    },
+    winner: {
+      type: Boolean,
+    }
   },
   created_by: {
     type: mongoose.Schema.Types.ObjectId,

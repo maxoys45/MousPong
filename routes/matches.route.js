@@ -1,7 +1,8 @@
 import { Router } from 'express'
 import { ensureAuth } from '../config/auth'
 
-import { getNewMatch, addNewMatch, getMatches, deleteMatch } from '../controllers/matches.controller'
+import { getNewMatch, addNewMatch } from '../controllers/match.new.controller'
+import { getMatches, deleteMatch } from '../controllers/match.history.controller'
 
 const router = Router()
 
@@ -14,10 +15,10 @@ router
 // Previous Matches
 router
   .route('/history')
-  .get(ensureAuth, getMatches)
+  .get(getMatches)
 
 router
   .route('/delete/:id')
-  .delete(ensureAuth, deleteMatch)
+  .get(ensureAuth, deleteMatch)
 
 export default router
