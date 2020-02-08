@@ -71,9 +71,9 @@ const addStatsToUsers = (users) => {
 
 /**
  * Take the users matches played and how many they've won to work out their win percentage.
- * @param {Array} users the returned users array
+ * @param {Array} users
  */
-const addWinPercentToUsersAndSort = (users) => {
+const addWinPercentToUsers = (users) => {
   return new Promise(resolve => {
     const usersWithPercentArr = []
 
@@ -89,19 +89,28 @@ const addWinPercentToUsersAndSort = (users) => {
       usersWithPercentArr.push(user)
     })
 
-    // Sort based on winning percentage,
-    // If win percent is the same, goto score difference
-    usersWithPercentArr.sort((a, b) => {
-      let winPercentA = parseFloat(a.stats.winningPercent)
-      let winPercentB = parseFloat(b.stats.winningPercent)
+    resolve(usersWithPercentArr)
+  })
+}
+
+/**
+ * Sort by Elo points.
+ * If users have the same numbers of points, goto score difference
+ * @param {Array} users
+ */
+const sortUsersByElo = (users) => {
+  return new Promise(resolve => {
+    users.sort((a, b) => {
+      let EloA = a.elo.current
+      let EloB = b.elo.current
       let scoreDiffA = parseFloat(a.stats.scoreDiff)
       let scoreDiffB = parseFloat(b.stats.scoreDiff)
 
-      if (winPercentA < winPercentB) {
+      if (EloA < EloB) {
         return 1
-      } else if (winPercentA > winPercentB) {
+      } else if (EloA > EloB) {
         return -1
-      } else if (winPercentA === winPercentB) {
+      } else if (EloA === EloB) {
         if (scoreDiffA < scoreDiffB) {
           return 1
         } else if (scoreDiffA > scoreDiffB) {
@@ -112,9 +121,7 @@ const addWinPercentToUsersAndSort = (users) => {
       return 0
     })
 
-    resolve(usersWithPercentArr)
-
-    return
+    resolve(users)
   })
 }
 
@@ -193,13 +200,14 @@ const populateLeaderboard = async () => {
       .exec()
 
     users = await addStatsToUsers(users)
-    users = await addWinPercentToUsersAndSort(users)
+    users = await addWinPercentToUsers(users)
+    users = await sortUsersByElo(users)
     users = await formatShortNames(users)
     users = await limitUsersForm(users)
     users = await splitIntoMinimumPlayed(users)
 
     return users
-  } catch (err) {
+  } catch(err) {
     return err
   }
 }

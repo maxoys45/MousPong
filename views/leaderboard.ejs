@@ -28,7 +28,8 @@
         <th class="leaderboard-heading__won heading center-col">W<span class="mobile-hide">ON</span></th>
         <th class="leaderboard-heading__lost heading center-col">L<span class="mobile-hide">OST</span></th>
         <th class="leaderboard-heading__diff heading center-col">+/-</th>
-        <th class="leaderboard-heading__win-percent heading center-col">W<span class="mobile-hide">IN&nbsp;</span>%</th>
+        <th class="leaderboard-heading__win-percent heading center-col mobile-hide">WIN&nbsp;%</th>
+        <th class="leaderboard-heading__win-percent heading center-col">ELO</th>
         <th class="leaderboard-heading__form heading center-col mobile-hide" style="width: 25%;">FORM</th>
       </tr>
     </thead>
@@ -55,7 +56,8 @@
           <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
           <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>
           <td class="center-col leaderboard__point-diff"><%= player.stats.scoreDiff %></td>
-          <td class="center-col leaderboard__win-percent"><%= player.stats.winningPercent %>%</td>
+          <td class="center-col leaderboard__win-percent mobile-hide"><%= player.stats.winningPercent %>%</td>
+          <td class="center-col leaderboard__win-percent"><%= player.elo.current %></td>
           <td class="center-col leaderboard__form mobile-hide">
             <% player.stats.last5.forEach(result => { %>
               <i class="fas fa-<%= (result === 1) ? 'check' : 'times' %>-circle text-<%= (result === 1) ? 'success' : 'danger' %>"></i>
@@ -79,7 +81,8 @@
           <td class="center-col leaderboard__games-won"><%= player.stats.won %></td>
           <td class="center-col leaderboard__games-lost"><%= player.stats.lost %></td>
           <td class="center-col leaderboard__point-diff"><%= player.stats.scoreDiff %></td>
-          <td class="center-col leaderboard__win-percent"><%= player.stats.winningPercent %>%</td>
+          <td class="center-col leaderboard__win-percent mobile-hide"><%= player.stats.winningPercent %>%</td>
+          <td class="center-col leaderboard__win-percent"><%= player.elo.current %></td>
           <td class="center-col leaderboard__form mobile-hide">
             <% player.stats.last5.forEach(result => { %>
               <i class="fas fa-<%= (result === 1) ? 'check' : 'times' %>-circle"></i>

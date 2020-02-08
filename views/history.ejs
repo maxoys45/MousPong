@@ -41,11 +41,11 @@
             <span class="mobile-hide"><%= match.p2.id.name %></span>
             <span class="desktop-hide"><%= match.p2.id.shortName %></span>
 
-            <% if (user && user._id.equals(match.created_by) && match.recent) { %>
+            <!-- <% if (user && user._id.equals(match.created_by) && match.recent) { %>
               <a class="remove-match" href="/matches/delete/<%= match._id %>">
                 <i class="fas fa-times"></i>
               </a>
-            <% } %>
+            <% } %> -->
           </td>
         </tr>
       <% }) %>

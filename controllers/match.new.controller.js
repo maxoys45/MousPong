@@ -1,3 +1,5 @@
+import EloRank from 'elo-rank'
+
 import { Match } from '../models/match.model'
 import { User } from '../models/user.model'
 
@@ -53,13 +55,13 @@ export const getNewMatch = (req, res) => {
     })
 }
 
-/**
- * Take the match values and update the users stats.
- * @param {Object} p1 player1
- * @param {Number} p1s player1score
- * @param {Object} p2 player2
- * @param {Number} p2s player2score
- */
+// /**
+//  * Take the match values and update the users stats.
+//  * @param {Object} p1 player1
+//  * @param {Number} p1s player1score
+//  * @param {Object} p2 player2
+//  * @param {Number} p2s player2score
+//  */
 // const updateUserStats = async (p1, p1s, p2, p2s, matchId) => {
 //   try {
 //     let winner
@@ -107,7 +109,7 @@ export const getNewMatch = (req, res) => {
 //       .exec()
 
 //     return
-//   } catch (err) {
+//   } catch(err) {
 //     return err
 //   }
 // }
@@ -133,17 +135,15 @@ const addMatchesToUsers = async (p1, p2, matchId) => {
       .exec()
 
     return
-  } catch (err) {
+  } catch(err) {
     return err
   }
 }
 
 /**
- * Add a new match.
+ * Check the match entered for any errors.
  */
-export const addNewMatch = (req, res) => {
-  const { p1, p1s, p2, p2s, created_by } = req.body
-
+const handleErrors = (p1, p1s, p2, p2s) => {
   let errors = []
 
   if (!p1 || !p1s || !p2 || !p2s) {
@@ -174,19 +174,67 @@ export const addNewMatch = (req, res) => {
     errors.push({ msg: 'You cannot play yourself.' })
   }
 
+  return errors
+}
+
+/**
+ * Calculate ELO points for match played.
+ * Higher the score difference, higher the K factor.
+ */
+const calculateElo = async (req) => {
+  const { p1, p1s, p2, p2s } = req.body
+  const scoreDifference = numDifference(p1s, p2s)
+  const Elo = new EloRank(28 + (scoreDifference * 2))
+  const p1outcome = (Number(p1s) > Number(p2s)) ? 1 : 0
+  const p2outcome = (Number(p1s) < Number(p2s)) ? 1 : 0
+
+  let p1Elo
+  let p2Elo
+
+  const player1 = await User.findById(p1)
+  const player2 = await User.findById(p2)
+
+  const p1ExpectedScore = Elo.getExpected(player1.elo.current, player2.elo.current)
+  const p2ExpectedScore = Elo.getExpected(player2.elo.current, player1.elo.current)
+
+  p1Elo = Elo.updateRating(p1ExpectedScore, p1outcome, player1.elo.current)
+  p2Elo = Elo.updateRating(p2ExpectedScore, p2outcome, player2.elo.current)
+
+  await User
+    .findByIdAndUpdate(p1, {
+      'elo.previous': player1.elo.current,
+      'elo.current': p1Elo
+    })
+    .exec()
+
+  await User
+    .findByIdAndUpdate(p2, {
+      'elo.previous': player2.elo.current,
+      'elo.current': p2Elo
+    })
+    .exec()
+}
+
+/**
+ * Add a new match.
+ */
+export const addNewMatch = async (req, res) => {
+  const { p1, p1s, p2, p2s, created_by } = req.body
+
+  const errors = handleErrors(p1, p1s, p2, p2s)
+
   if (errors.length) {
-    getPlayersList(req)
-      .then(players => {
-        res.render('addmatch', {
-          user: req.user,
-          players,
-          errors,
-          p1,
-          p1s,
-          p2,
-          p2s
-        })
-      })
+    const players = await getPlayersList(req)
+
+    res.render('addmatch', {
+      user: req.user,
+      players,
+      errors,
+      p1,
+      p1s,
+      p2,
+      p2s
+    })
   } else {
     const newMatch = new Match({
       'p1.id': p1,
@@ -198,14 +246,11 @@ export const addNewMatch = (req, res) => {
       created_by
     })
 
-    newMatch.save()
-      .then(() => {
-        addMatchesToUsers(p1, p2, newMatch.id)
-          .then(() => {
-            req.flash('light_msg', 'New match has been added.')
-            res.redirect('/')
-          })
-      })
-      .catch (err => console.error(err))
+    await newMatch.save()
+    await addMatchesToUsers(p1, p2, newMatch.id)
+    await calculateElo(req)
+
+    req.flash('light_msg', 'New match has been added.')
+    res.redirect('/')
   }
 }

@@ -17,6 +17,16 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  elo: {
+    current: {
+      type: Number,
+      default: 1000,
+    },
+    previous: {
+      type: Number,
+      default: 1000,
+    },
+  },
   matches: [
     {
       type: mongoose.Schema.Types.ObjectId,
