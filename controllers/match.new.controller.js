@@ -251,6 +251,6 @@ export const addNewMatch = async (req, res) => {
     await calculateElo(req)
 
     req.flash('light_msg', 'New match has been added.')
-    res.redirect('/')
+    res.redirect('/matches/new') // for testing
   }
 }
