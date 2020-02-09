@@ -26,11 +26,14 @@ import { numDifference } from '../helpers/utils'
  */
 const getPlayersList = (req) => {
   return new Promise(resolve => {
-    User.find({}, (err, users) => {
-      if (err) throw err
+    User
+      .find({})
+      .sort({ name: 1 })
+      .exec((err, users) => {
+        if (err) throw err
 
-      resolve(users)
-      return
+        resolve(users)
+        return
     })
   })
 }
