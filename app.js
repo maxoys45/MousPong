@@ -26,7 +26,10 @@ mongoose.connect(db, {
   .then(() => console.log('MongoDB Connected...\n====================\n++++++++++++++++++++\n===================='))
   .catch(err => console.error(err))
 
-  // EJS
+// Public folder
+app.use(express.static(__dirname + '/public'));
+
+// EJS
 app.use(expressLayouts)
 app.set('view engine', 'ejs')
 
