@@ -33,9 +33,6 @@ app.use(express.static(__dirname + '/public'));
 app.use(expressLayouts)
 app.set('view engine', 'ejs')
 
-// Public folder
-app.use(express.static(__dirname + '/public'))
-
 // Bodyparser
 app.use(express.urlencoded({ extended: false }))
 
