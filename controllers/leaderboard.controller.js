@@ -179,8 +179,12 @@ const splitIntoMinimumPlayed = (users) => {
 
     users.forEach(user => {
       if (user.stats.played >= 5) {
+        user.ranked = true
+
         splitUsers.ranked.push(user)
       } else {
+        user.ranked = false
+
         splitUsers.unranked.push(user)
       }
     })
