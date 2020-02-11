@@ -1,14 +1,4 @@
-<div class="container mt-4">
-  <h2>Add new match</h2>
-
-  <a href="/" class="btn btn-primary">View leaderboard</a>
-
-  <a href="/matches/history" class="btn btn-primary">View previous matches</a>
-
-  <a href="/users/logout" class="btn btn-secondary">Logout</a>
-</div>
-
-<div class="container mt-4">
+<div class="container mt-3">
   <%- include('./partials/messages') -%>
 
   <form action="/matches/new" method="POST">
@@ -38,7 +28,7 @@
           id="p1s"
           aria-label="Score"
           name="p1s"
-          pattern="[0-9]*"
+          pattern="\d*"
           type="text"
           value="<%= typeof p1s != 'undefined' ? p1s : '' %>"
         >
@@ -69,15 +59,15 @@
           id="p2s"
           aria-label="Score"
           name="p2s"
-          pattern="[0-9]*"
+          pattern="\d*"
           type="text"
           value="<%= typeof p2s != 'undefined' ? p2s : '' %>"
         >
       </div>
     </div>
 
-    <button type="submit" class="btn btn-success">
-      Add match
+    <button type="submit" class="btn btn-info addmatch__submit">
+      Submit result
     </button>
   </form>
 </div>

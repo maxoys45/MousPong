@@ -1,0 +1,10 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+ul { list-style: none; }
+
+.main {
+  @include bp($SCR_MEDIUM, max-width) {
+    // height of fixed nav
+    padding-bottom: 74px;
+  }
+}

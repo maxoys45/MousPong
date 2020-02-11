@@ -223,7 +223,6 @@ export const getLeaderboard = (req, res) => {
   populateLeaderboard()
     .then(standings => {
       res.render('leaderboard', {
-        user: req.user,
         standings
       })
     })

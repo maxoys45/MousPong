@@ -42,17 +42,9 @@ const getPlayersList = (req) => {
  * Render the match history template.
  */
 export const getNewMatch = (req, res) => {
-  // getOpponentsList(req)
-  //   .then(opponents => {
-  //     res.render('addmatch', {
-  //       user: req.user,
-  //       opponents
-  //     })
-  //   })
   getPlayersList(req)
     .then(players => {
       res.render('addmatch', {
-        user: req.user,
         players
       })
     })
@@ -230,7 +222,6 @@ export const addNewMatch = async (req, res) => {
     const players = await getPlayersList(req)
 
     res.render('addmatch', {
-      user: req.user,
       players,
       errors,
       p1,

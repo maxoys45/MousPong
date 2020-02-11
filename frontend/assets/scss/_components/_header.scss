@@ -1,0 +1,23 @@
+.header {
+  position: sticky;
+  top: 0;
+  background: $COLOR_LIGHT;
+  z-index: $LAYER_FLAT;
+
+  &__logo-container {
+    @include padding(1rem, x, 1rem, x);
+    display: flex;
+    align-items: center;
+
+    @include bp($SCR_MEDIUM, max-width) {
+      justify-content: center;
+    }
+  }
+
+  &__logo {
+  }
+
+  &__logo-img {
+    height: 3rem;
+  }
+}

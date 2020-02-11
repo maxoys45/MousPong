@@ -1,13 +1,19 @@
 // INCS
-@import "_incs/_fonts";
-@import "_incs/_colors";
-@import "_incs/_vars";
-@import "_incs/_functions";
-@import "_incs/_mixins";
-@import "_incs/_animations";
-// @import "_incs/_reset";
-@import "_incs/_helpers";
-// @import "_incs/_generic";
-// @import "_incs/_base";
+@import '_incs/fonts';
+@import '_incs/colors';
+@import '_incs/vars';
+@import '_incs/functions';
+@import '_incs/mixins';
+@import '_incs/animations';
+// @import '_incs/reset';
+@import '_incs/helpers';
+// @import '_incs/generic';
+// @import '_incs/base';
+@import '_incs/main';
 
 // COMPONENTS
+@import '_components/addmatch';
+@import '_components/alerts';
+@import '_components/header';
+@import '_components/main-nav';
+@import '_components/tables';

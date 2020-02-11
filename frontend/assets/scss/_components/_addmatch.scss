@@ -1,0 +1,7 @@
+.addmatch {
+  &__submit {
+    @include bp($SCR_MEDIUM, max-width) {
+      width: 100%;
+    }
+  }
+}

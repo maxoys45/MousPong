@@ -1,20 +1,4 @@
-<div class="container mt-4">
-  <h2>Previous games</h2>
-
-  <% if (user) { %>
-    <a href="/matches/new" class="btn btn-success">Add new match</a>
-  <% } %>
-
-  <a href="/" class="btn btn-primary">View leaderboard</a>
-
-  <% if (user) { %>
-    <a href="/users/logout" class="btn btn-secondary">Logout</a>
-  <% } else { %>
-    <a href="/users/login" class="btn btn-secondary">Login</a>
-  <% } %>
-</div>
-
-<div class="history mt-4">
+<div class="history">
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>

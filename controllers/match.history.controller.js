@@ -83,7 +83,6 @@ export const getMatches = (req, res) => {
   populateMatches()
     .then(matches => {
       res.render('history', {
-        user: req.user,
         matches
       })
     })

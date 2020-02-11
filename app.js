@@ -12,6 +12,8 @@ import leaderboardRouter from './routes/leaderboard.route'
 import userRouter from './routes/users.route'
 import matchRouter from './routes/matches.route'
 
+import { defaultResVars } from './middleware/res.vars'
+
 const app = express()
 
 // Passport config
@@ -50,6 +52,9 @@ app.use(session({
 // Passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
+
+// Add user to all views
+app.use(defaultResVars)
 
 // Connect flash
 app.use(flash())

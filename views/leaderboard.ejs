@@ -1,36 +1,16 @@
-<div class="container mt-4">
-  <h2>Leaderboard</h2>
-
-  <p class="lead mb-3 d-none">Welcome <%= user ? user.name : 'Guest' %></p>
-
-  <%- include('./partials/messages') -%>
-
-  <% if (user) { %>
-    <a href="/matches/new" class="btn btn-success">Add new match</a>
-  <% } %>
-
-  <a href="/matches/history" class="btn btn-primary">View previous matches</a>
-
-  <% if (user) { %>
-    <a href="/users/logout" class="btn btn-secondary">Logout</a>
-  <% } else { %>
-    <a href="/users/login" class="btn btn-secondary">Login</a>
-  <% } %>
-</div>
-
-<div class="leaderboard mt-4">
+<div class="leaderboard">
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
         <th class="leaderboard-heading__rank heading center-col">#</th>
-        <th class="leaderboard-heading__player heading" style="width: 20%;">NAME</th>
-        <th class="leaderboard-heading__played heading center-col mobile-hide">PLD</th>
-        <th class="leaderboard-heading__won heading center-col">W<span class="mobile-hide">ON</span></th>
-        <th class="leaderboard-heading__lost heading center-col">L<span class="mobile-hide">OST</span></th>
+        <th class="leaderboard-heading__player heading" style="width: 20%;">Name</th>
+        <th class="leaderboard-heading__played heading center-col mobile-hide">Played</th>
+        <th class="leaderboard-heading__won heading center-col">W<span class="mobile-hide">on</span></th>
+        <th class="leaderboard-heading__lost heading center-col">L<span class="mobile-hide">ost</span></th>
         <th class="leaderboard-heading__diff heading center-col">+/-</th>
-        <th class="leaderboard-heading__win-percent heading center-col mobile-hide">WIN&nbsp;%</th>
-        <th class="leaderboard-heading__win-percent heading center-col">ELO</th>
-        <th class="leaderboard-heading__form heading center-col mobile-hide" style="width: 20%;">FORM</th>
+        <th class="leaderboard-heading__win-percent heading center-col mobile-hide">Win&nbsp;%</th>
+        <th class="leaderboard-heading__win-percent heading center-col">Elo</th>
+        <th class="leaderboard-heading__form heading center-col mobile-hide" style="width: 20%;">Form</th>
       </tr>
     </thead>
 

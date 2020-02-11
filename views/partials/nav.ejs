@@ -1,0 +1,29 @@
+<nav class="main-nav">
+  <ul class="main-nav__list">
+    <li class="main-nav__item main-nav__item--leaderboard"><a href="/" class="main-nav__link">
+      <span class="main-nav__icon icon-standings"></span>
+      <span class="main-nav__text">Leaderboard</span>
+    </a></li>
+    <li class="main-nav__item main-nav__item--history"><a href="/matches/history" class="main-nav__link">
+      <span class="main-nav__icon icon-history"></span>
+      <span class="main-nav__text">Match history</span>
+    </a></li>
+    <% if (user) { %>
+      <li class="main-nav__item main-nav__item--new"><a href="/matches/new" class="btn btn-success main-nav__link">
+        <span class="main-nav__icon icon-plus"></span>
+        <span class="main-nav__text">Add match</span>
+      </a></li>
+    <% } %>
+    <% if (user) { %>
+      <li class="main-nav__item main-nav__item--logout"><a href="/users/logout" class="btn btn-secondary main-nav__link">
+        <span class="main-nav__icon icon-logout"></span>
+        <span class="main-nav__text">Logout</span>
+      </a></li>
+    <% } else { %>
+      <li class="main-nav__item main-nav__item--login"><a href="/users/login" class="btn btn-info main-nav__link">
+        <span class="main-nav__icon icon-login"></span>
+        <span class="main-nav__text">Login</span>
+      </a></li>
+    <% } %>
+  </ul>
+</nav>

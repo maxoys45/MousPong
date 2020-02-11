@@ -40,14 +40,6 @@
 	}
 }
 
-// PADDING
-@mixin padded($t:auto, $r:auto, $b:auto, $l:auto) {
-	padding-top:$t;
-	padding-right:$r;
-	padding-bottom:$b;
-	padding-left:$l;
-}
-
 // DOUBLE BORDER
 @mixin doubleborder($thickness, $gap, $color, $bgcolor, $nomargin : false) {
 	$gap : $thickness + $gap;
