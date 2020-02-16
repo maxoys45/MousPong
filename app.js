@@ -29,7 +29,7 @@ mongoose.connect(db, {
   .catch(err => console.error(err))
 
 // Public folder
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'))
 
 // EJS
 app.use(expressLayouts)

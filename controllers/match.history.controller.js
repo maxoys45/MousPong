@@ -1,6 +1,7 @@
 import moment from 'moment'
 
 import { Match } from '../models/match.model'
+import { User } from '../models/user.model'
 
 const addFormattedDateToMatch = (matches) => {
   return new Promise(resolve => {
@@ -26,9 +27,10 @@ const addRecentMatchDate = (matches) => {
   return new Promise(resolve => {
     const matchesWithRecentDate = []
 
+    // matches[0].recent = true
     matches.forEach(match => {
-      // If match happened in the last 12 hours
-      match.recent = match.date >= new Date(new Date().getTime()) - (1 * 12 * 60 * 60 * 1000)
+      // If match happened in the last 5 mins
+      match.recent = match.date >= new Date(new Date().getTime()) - (1 * 1 * 5 * 60 * 1000)
 
       matchesWithRecentDate.push(match)
     })
@@ -66,7 +68,7 @@ const populateMatches = async () => {
       .lean()
       .exec()
 
-    matches = await addRecentMatchDate(matches)
+    // matches = await addRecentMatchDate(matches)
     matches = await addFormattedDateToMatch(matches)
     matches = await addShortNamesToMatchPlayers(matches)
 
@@ -89,17 +91,56 @@ export const getMatches = (req, res) => {
 }
 
 /**
- * Delete a match using the match ID.
+ * Get the latest match played.
  */
-export const deleteMatch = (req, res) => {
+const getLatestMatch = () => {
+  return new Promise(resolve => {
+    const latestMatch = Match
+      .findOne()
+      .sort({ 'date': -1 })
+      .lean()
+      .exec()
+
+    resolve(latestMatch)
+  })
+}
+
+/**
+ * Reset the Elo of the matches players to the previous value.
+ * @param {Object} latestMatch
+ */
+const resetEloToPreviousState = async (latestMatch) => {
+  const player1 = await User.findById(latestMatch.p1.id)
+  const player2 = await User.findById(latestMatch.p2.id)
+
+  await User.findByIdAndUpdate(latestMatch.p1.id, { 'elo.current': player1.elo.previous })
+  await User.findByIdAndUpdate(latestMatch.p2.id, { 'elo.current': player2.elo.previous })
+}
+
+/**
+ * Delete a match using the match ID.
+ * Make sure it's the latest match played to not mess with Elo system.
+ */
+export const deleteMatch = async (req, res) => {
+  const latestMatch = await getLatestMatch()
+
+  if (!latestMatch._id.equals(req.params.id)) {
+    req.flash('error_msg', 'This is not the latest match anymore and cannot be deleted.')
+    res.status(400).redirect('/matches/history')
+
+    return
+  }
+
+  await resetEloToPreviousState(latestMatch)
+
   Match
     .findByIdAndRemove(req.params.id)
     .exec()
-    .then(doc => {
-      if (!doc) res.status(404).end()
+    .then(match => {
+      if (!match) res.status(404).end()
 
       req.flash('light_msg', 'Match has been deleted.')
       res.status(204).redirect('/matches/history')
     })
-    .catch(err => next(err))
+    .catch(err => console.error(err))
 }

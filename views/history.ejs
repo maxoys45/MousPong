@@ -1,3 +1,15 @@
+<div class="container">
+  <%- include('./partials/messages') -%>
+</div>
+
+
+<% let deletableMatch = false %>
+<% matches.forEach((match, index) => { %>
+  <% if (user && user.name.includes('Henchman') && index === 0) { %>
+    <% deletableMatch = true %>
+  <% } %>
+<% }) %>
+
 <div class="history">
   <table class="table table-striped">
     <thead class="thead-dark">
@@ -5,12 +17,12 @@
         <th class="heading" scope="col">Date</th>
         <th class="heading" scope="col">Player 1</th>
         <th class="heading" scope="col">Score</th>
-        <th class="heading" scope="col">Player 2</th>
+        <th class="heading" scope="col"<%- deletableMatch ? ' style="width: 35%;"' : '' %>>Player 2</th>
       </tr>
     </thead>
 
     <tbody>
-      <% matches.forEach(match => { %>
+      <% matches.forEach((match, index) => { %>
         <tr>
           <td class="history__col">
             <span class="mobile-hide"><%= match.formattedDate %></span>
@@ -21,15 +33,15 @@
             <span class="desktop-hide"><%= match.p1.id.shortName %></span>
           </td>
           <td class="history__col"><%= match.p1.score %> : <%= match.p2.score %></td>
-          <td class="history__col history__col--name">
+          <td class="history__col<%= deletableMatch ? ' history__col--deletable' : '' %>">
             <span class="mobile-hide"><%= match.p2.id.name %></span>
             <span class="desktop-hide"><%= match.p2.id.shortName %></span>
 
-            <!-- <% if (user && user._id.equals(match.created_by) && match.recent) { %>
+            <% if (user && user.name.includes('Henchman') && index === 0) { %>
               <a class="remove-match" href="/matches/delete/<%= match._id %>">
                 <i class="fas fa-times"></i>
               </a>
-            <% } %> -->
+            <% } %>
           </td>
         </tr>
       <% }) %>
