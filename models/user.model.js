@@ -23,16 +23,15 @@ const UserSchema = new mongoose.Schema({
       default: 1000,
     },
     previous: {
-      type: Number,
-      default: 1000,
+      type: [ Number ],
     },
   },
   matches: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Match'
-    }
-  ]
+      ref: 'Match',
+    },
+  ],
 })
 
 export const User = mongoose.model('User', UserSchema)
