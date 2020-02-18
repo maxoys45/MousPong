@@ -29,10 +29,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-logout::before {
+.icon-exit::before {
   content: '\e904';
 }
-.icon-login::before {
+.icon-enter::before {
   content: '\e902';
 }
 .icon-plus::before {
@@ -43,4 +43,7 @@
 }
 .icon-standings::before {
   content: '\e901';
+}
+.icon-user::before {
+  content: '\e905';
 }
