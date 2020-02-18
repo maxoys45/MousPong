@@ -120,8 +120,6 @@ const resetEloToPreviousState = async (latestMatch) => {
     throw new Error('User doesn\'t have enough previous Elo entries to delete match.')
   }
 
-  console.log("i dont run if error")
-
   await User
     .findByIdAndUpdate(latestMatch.p1.id, {
       'elo.current': p1LastElo,
