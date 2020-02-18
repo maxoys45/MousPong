@@ -195,7 +195,6 @@ const calculateElo = async (req) => {
   p1Elo = Elo.updateRating(p1ExpectedScore, p1outcome, player1.elo.current)
   p2Elo = Elo.updateRating(p2ExpectedScore, p2outcome, player2.elo.current)
 
-  // NEEDS TESTING
   await User
     .findByIdAndUpdate(p1, {
       $push: { 'elo.previous': player1.elo.current },

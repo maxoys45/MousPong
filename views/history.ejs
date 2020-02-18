@@ -5,7 +5,7 @@
 
 <% let deletableMatch = false %>
 <% matches.forEach((match, index) => { %>
-  <% if (user && user.name.includes('Henchman') && index === 0) { %>
+  <% if (user && user._id.equals(match.created_by) && index === 0) { %>
     <% deletableMatch = true %>
   <% } %>
 <% }) %>
@@ -37,10 +37,32 @@
             <span class="mobile-hide"><%= match.p2.id.name %></span>
             <span class="desktop-hide"><%= match.p2.id.shortName %></span>
 
-            <% if (user && user.name.includes('Henchman') && index === 0) { %>
-              <a class="remove-match" href="/matches/delete/<%= match._id %>">
+            <% if (user && user._id.equals(match.created_by) && index === 0) { %>
+              <button class="remove-match"  data-toggle="modal" data-target="#deleteModal">
                 <i class="fas fa-times"></i>
-              </a>
+              </button>
+
+              <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Delete match?</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <!-- <div class="modal-body">
+                      <p>Are you sure?</p>
+                    </div> -->
+
+                    <div class="modal-footer">
+                      <a type="button" class="btn btn-danger" href="/matches/delete/<%= match._id %>">Yes, delete</a>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Nope</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             <% } %>
           </td>
         </tr>

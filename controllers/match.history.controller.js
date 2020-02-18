@@ -107,6 +107,7 @@ const getLatestMatch = () => {
 
 /**
  * Reset the Elo of the matches players to the previous value.
+ * @TODO: Grab last element from previous array instead of having to set it as a variable separately??
  * @param {Object} latestMatch
  */
 const resetEloToPreviousState = async (latestMatch) => {
@@ -114,16 +115,17 @@ const resetEloToPreviousState = async (latestMatch) => {
   const player2 = await User.findById(latestMatch.p2.id)
   const p1LastElo = player1.elo.previous[player1.elo.previous.length - 1]
   const p2LastElo = player2.elo.previous[player2.elo.previous.length - 1]
-  // NEEDS TESTING
+
   await User
     .findByIdAndUpdate(latestMatch.p1.id, {
       'elo.current': p1LastElo,
-      // REMOVE LAST ENTRY IN PREVIOUS ARR
+      $pop: { 'elo.previous': 1 },
     })
 
   await User
     .findByIdAndUpdate(latestMatch.p2.id, {
       'elo.current': p2LastElo,
+      $pop: { 'elo.previous': 1 },
     })
 }
 
