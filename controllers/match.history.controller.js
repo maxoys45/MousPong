@@ -116,6 +116,12 @@ const resetEloToPreviousState = async (latestMatch) => {
   const p1LastElo = player1.elo.previous[player1.elo.previous.length - 1]
   const p2LastElo = player2.elo.previous[player2.elo.previous.length - 1]
 
+  if (!player1.elo.previous.length || !player2.elo.previous.length) {
+    throw new Error('User doesn\'t have enough previous Elo entries to delete match.')
+  }
+
+  console.log("i dont run if error")
+
   await User
     .findByIdAndUpdate(latestMatch.p1.id, {
       'elo.current': p1LastElo,
@@ -132,6 +138,8 @@ const resetEloToPreviousState = async (latestMatch) => {
 /**
  * Delete a match using the match ID.
  * Make sure it's the latest match played to not mess with Elo system.
+ * Fail if a new match has been created since loading the page.
+ * Fail if a player doesn't have any previous Elo data (previous data being an Array is new).
  */
 export const deleteMatch = async (req, res) => {
   const latestMatch = await getLatestMatch()
@@ -143,16 +151,21 @@ export const deleteMatch = async (req, res) => {
     return
   }
 
-  await resetEloToPreviousState(latestMatch)
-
-  Match
-    .findByIdAndRemove(req.params.id)
-    .exec()
-    .then(match => {
-      if (!match) res.status(404).end()
-
-      req.flash('light_msg', 'Match has been deleted.')
-      res.status(204).redirect('/matches/history')
+  resetEloToPreviousState(latestMatch)
+    .then(() => {
+      Match
+        .findByIdAndRemove(req.params.id)
+        .exec()
+        .then(match => {
+          req.flash('light_msg', 'Match has been deleted.')
+          res.status(204).redirect('/matches/history')
+        })
+        .catch(err => console.error(err))
     })
-    .catch(err => console.error(err))
+    .catch(err => {
+      req.flash('error_msg', 'Cannot delete match as one of the players is missing previous Elo data.')
+      res.status(400).redirect('/matches/history')
+
+      console.error(err)
+    })
 }
