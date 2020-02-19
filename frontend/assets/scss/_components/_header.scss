@@ -5,7 +5,7 @@
   z-index: $LAYER_FLAT;
 
   &__logo-container {
-    @include padding(1rem, x, 1rem, x);
+    @include padding(.5rem, x, .5rem, x);
     display: flex;
     align-items: center;
 
