@@ -43,19 +43,19 @@ var cfg = {
   },
 }
 
-// // SCRIPTS
-// gulp.task('js-rebuild', function () {
-//   return browserify({entries: cfg.scripts.entrypoint, debug: true})
-//     .transform("babelify", { presets: ["env"] })
-//     .bundle()
-//     .pipe(source(cfg.scripts.filename))
-//     .pipe(buffer())
-//     .pipe(sourcemaps.init())
-//     .pipe(uglify())
-//     .pipe(sourcemaps.write('./maps'))
-//     .pipe(gulp.dest(cfg.scripts.dist))
-//     .pipe(browserSync.stream())
-// })
+// SCRIPTS
+gulp.task('js-rebuild', function () {
+  return browserify({entries: cfg.scripts.entrypoint, debug: true})
+    .transform("babelify", { presets: ["env"] })
+    .bundle()
+    .pipe(source(cfg.scripts.filename))
+    .pipe(buffer())
+    .pipe(sourcemaps.init())
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./maps'))
+    .pipe(gulp.dest(cfg.scripts.dist))
+    .pipe(browserSync.stream())
+})
 
 // COPY IMAGES
 gulp.task('images-rebuild', function() {
@@ -120,9 +120,9 @@ gulp.task('watch-vendor-css', ['vendor-css-rebuild'], function() {
 })
 
 // watch just the js files
-// gulp.task('watch-js', ['js-rebuild'], function() {
-//   gulp.watch([cfg.scripts.src], ['js-rebuild'])
-// })
+gulp.task('watch-js', ['js-rebuild'], function() {
+  gulp.watch([cfg.scripts.src], ['js-rebuild'])
+})
 
 // watch just the image files
 gulp.task('watch-images', ['images-rebuild'], function() {
@@ -134,6 +134,6 @@ gulp.task('watch-fonts', ['fonts-rebuild'], function() {
   gulp.watch([cfg.fonts.src], ['fonts-rebuild'])
 })
 
-gulp.task('default', ['serve', 'watch-sass', 'watch-vendor-css', 'watch-images', 'watch-fonts'])
+gulp.task('default', ['serve', 'watch-sass', 'watch-vendor-css', 'watch-images', 'watch-fonts', 'watch-js'])
 
-gulp.task('build', ['sass-rebuild', 'vendor-css-rebuild', 'images-rebuild', 'fonts-rebuild'])
+gulp.task('build', ['sass-rebuild', 'vendor-css-rebuild', 'images-rebuild', 'fonts-rebuild', 'js-rebuild'])
