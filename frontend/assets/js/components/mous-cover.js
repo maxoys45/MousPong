@@ -7,14 +7,13 @@
  */
 import { on } from '../helpers/utils'
 import cssClasses from '../helpers/cssClasses'
-import breakpoints from '../helpers/breakpoints'
 
 /**
  * Global variables
  */
 const selectors = {
   cover: '[mous-cover]',
-  mainLinks: '[main-link]',
+  mainLinks: '[mous-cover-link]',
 }
 
 export default () => {
@@ -51,7 +50,7 @@ export default () => {
   const hideCover = () => {
     setTimeout(() => {
       nodes.cover.classList.remove(cssClasses.active)
-    }, 250)
+    }, 150)
   }
 
   /**
@@ -71,8 +70,7 @@ export default () => {
    * Goto the requested page once the animation has played.
    */
   const gotoPage = (link) => {
-    console.log(link)
-    // window.location.href = 
+    window.location.href = link.getAttribute('href')
   }
 
   /**
