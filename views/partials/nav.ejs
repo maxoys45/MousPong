@@ -10,13 +10,13 @@
     <li class="main-nav__item main-nav__item--history">
       <a href="/matches/history" class="main-nav__link">
         <span class="main-nav__icon icon-history"></span>
-        <span class="main-nav__text">Match history</span>
+        <span class="main-nav__text">History</span>
       </a>
     </li>
 
     <% if (user) { %>
       <li class="main-nav__item main-nav__item--new">
-          <a href="/users/<%= user._id %>" class="btn btn-secondary main-nav__link">
+        <a href="/users/<%= user._id %>" class="main-nav__link">
           <span class="main-nav__icon icon-user"></span>
           <span class="main-nav__text">Account</span>
         </a>

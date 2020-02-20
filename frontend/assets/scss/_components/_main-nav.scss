@@ -1,4 +1,5 @@
 .main-nav {
+  $parent: &;
   flex-grow: 1;
 
   @include bp($SCR_MEDIUM, max-width) {
@@ -7,7 +8,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: $COLOR_LIGHT2;
     z-index: $LAYER_NAV;
   }
 
@@ -29,11 +29,11 @@
     }
 
     @include bp($SCR_MEDIUM, max-width) {
-      flex: 1 0 percentage(1 / 3);
+      flex: 1 0 percentage(1 / 4);
 
-      &#{&}--history {
-        order: 1;
-      }
+      // &#{&}--history {
+        // order: 1;
+      // }
 
       &#{&}--logout {
         display: none;
@@ -51,6 +51,12 @@
     @include padding(x, 1rem, x, 1rem);
     display: flex;
     align-items: center;
+    background-color: $COLOR_LIGHT;
+
+    #{$parent}__item:nth-child(2) & {
+      border-left: 1px solid $COLOR_GREY;
+      border-right: 1px solid $COLOR_GREY;
+    }
 
     &:not(.btn) {
       color: $COLOR_DARK;
