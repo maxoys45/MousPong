@@ -1,0 +1,36 @@
+<style>
+  :root {
+    --cover-timing: 0.25s;
+    --mous-green: #00cc9c;
+  }
+
+  .mous-cover {
+    transition: opacity var(--cover-timing) ease-in-out;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--mous-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5000;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .mous-cover.is-active {
+    opacity: 1;
+  }
+
+  .mous-cover__img {
+    transition: transform var(--cover-timing) ease-in-out;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .mous-cover.is-active .mous-cover__img {
+    transform: scale(0.75) translateZ(0);
+  }
+</style>
