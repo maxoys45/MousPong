@@ -1,6 +1,7 @@
 import { Router } from 'express'
+import { ensureAuth } from '../config/auth'
 
-import { getLogin, postLogin, getLogout, getRegister, postRegister } from '../controllers/users.controller'
+import { getLogin, postLogin, getLogout, getRegister, postRegister, getAccount } from '../controllers/users.controller'
 
 const router = Router()
 
@@ -13,12 +14,17 @@ router
 // Logout
 router
   .route('/logout')
-  .get(getLogout)
+  .get(ensureAuth, getLogout)
 
 // Register
 router
   .route('/register')
   .get(getRegister)
   .post(postRegister)
+
+router
+  .route('/account')
+  .get(ensureAuth, getAccount)
+  // .get(getAccount)
 
 export default router

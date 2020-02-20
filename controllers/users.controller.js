@@ -106,3 +106,15 @@ export const postRegister = (req, res) => {
       })
   }
 }
+
+export const getAccount = async (req, res) => {
+  const user = await User
+    .findById(req.user ? req.user._id : '5e4e3cb17896a746ebdf5a12')
+
+    // TODO: Put users with stats data into it's own component to access for here and leaderboard.
+  console.log(user.name)
+
+  res.render('account', {
+
+  })
+}

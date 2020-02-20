@@ -70,7 +70,7 @@
     @include bp($SCR_MEDIUM, max-width) {
       flex-direction: column;
       flex-grow: 1;
-      padding: 1rem;
+      padding: 1rem .5rem;
       text-align: center;
       border-radius: 0;
     }
