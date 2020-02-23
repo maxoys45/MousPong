@@ -107,6 +107,9 @@ export const postRegister = (req, res) => {
   }
 }
 
+/**
+ * Get the user account template.
+ */
 export const getAccount = async (req, res) => {
   const user = await User
     .findById(req.user ? req.user._id : '5e4e3cb17896a746ebdf5a12')
@@ -117,4 +120,78 @@ export const getAccount = async (req, res) => {
   res.render('account', {
 
   })
+}
+
+/**
+ * Update user password.
+ */
+export const postChangePassword = (req, res) => {
+  const { currentPassword, newPassword, verifyPassword } = req.body
+
+  if (req.user) {
+    if (newPassword) {
+      User
+        .findById(req.user._id)
+        .then((err, user) => {
+          if (!err & user) {
+            passport.authenticate('local'), (req, res) => {
+
+            }
+          }
+        })
+    }
+  }
+
+  if (req.user) {
+    if (newPassword) {
+      User
+        .findById(req.user._id, (err, user) => {
+          if (!err && user) {
+            if (user.authenticate(currentPassword)) {
+              if (newPassword === verifyPassword) {
+                user.password = newPassword
+
+                user.save((err) => {
+                  if (err) {
+                    return res.status(422).send({
+                      message: 'Error updating password.'
+                    })
+                  } else {
+                    req.login(user, function (err) {
+                      if (err) {
+                        res.status(400).send(err)
+                      } else {
+                        res.send({
+                          message: 'Password changed successfully.'
+                        })
+                      }
+                    })
+                  }
+                })
+              } else {
+                res.status(422).send({
+                  message: 'Passwords do not match.'
+                })
+              }
+            } else {
+              res.status(422).send({
+                message: 'Current password is incorrect.'
+              })
+            }
+          } else {
+            res.status(400).send({
+              message: 'User is not found.'
+            })
+          }
+      })
+    } else {
+      res.status(422).send({
+        message: 'Please provide a new password.'
+      })
+    }
+  } else {
+    res.status(401).send({
+      message: 'User is not signed in.'
+    })
+  }
 }

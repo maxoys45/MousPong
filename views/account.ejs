@@ -1,1 +1,44 @@
-Sup, <%= user.name %>
+<div class="account">
+  <h2 class="h3 text-center"><%= user.name %></h2>
+</div>
+
+<form action="/users/account/update" method="POST">
+  <div class="form-group">
+    <label for="currentPassword">Current password</label>
+    <input
+      type="password"
+      id="currentPassword"
+      name="currentPassword"
+      class="form-control"
+      placeholder="Current password"
+      value="<%= typeof currentPassword != 'undefined' ? currentPassword : '' %>"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="newPassword">New password</label>
+    <input
+      type="password"
+      id="newPassword"
+      name="newPassword"
+      class="form-control"
+      placeholder="New password"
+      value="<%= typeof newPassword != 'undefined' ? newPassword : '' %>"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="verifyPassword">Confirm new password</label>
+    <input
+      type="password"
+      id="verifyPassword"
+      name="verifyPassword"
+      class="form-control"
+      placeholder="Confirm Password"
+    >
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-block">
+    Update password
+  </button>
+</form>
