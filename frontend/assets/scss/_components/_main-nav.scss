@@ -51,7 +51,6 @@
     @include padding(x, 1rem, x, 1rem);
     display: flex;
     align-items: center;
-    background-color: $COLOR_LIGHT;
 
     &:not(.btn) {
       color: $COLOR_DARK;
@@ -63,6 +62,7 @@
     }
 
     @include bp($SCR_MEDIUM, max-width) {
+      background-color: $COLOR_LIGHT;
       flex-direction: column;
       flex-grow: 1;
       padding: 1rem .5rem;
