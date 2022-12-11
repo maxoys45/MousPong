@@ -16,7 +16,7 @@
     "ejs": "^3.0.1",
     "elo-rank": "^1.0.4",
     "esm": "^3.2.25",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.0",
     "moment": "^2.24.0",
